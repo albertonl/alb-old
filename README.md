@@ -58,3 +58,9 @@ REQUIREMENTS:
 4. The interpreter will ask you the name of your file. Then, write it.
 
 5. Then, the program should be running.
+
+# _Latest updates:_
+
+- V 0.0.1: initial interpreter
+
+- V 0.0.2: statements can be separated by spaces and lines, and tabs can be used at the beginning of statements. Added comments (`//` at the beginning of the comment. Comments have to be alone in a line).
