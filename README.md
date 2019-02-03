@@ -23,10 +23,12 @@ The _ALB_ programming language (in development).
 
 # _The_ ALB _program structure:_
 
-`(Any text before a BEGIN or after an END statement would be ingored by the interpreter. So this can be used as comments)
+```
+(Any text before a BEGIN or after an END statement would be ingored by the interpreter. So this can be used as comments)
 BEGIN
 (some code...)
-END`
+END
+```
 
 
 # _Installation_:
