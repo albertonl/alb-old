@@ -13,13 +13,14 @@ static vector<string> program;
 void read(string fileName);
 void run(string fileName);
 
-int main(){
-	string fileName;
-
+int main(int argc, char *argv[]){
+	string curr_program = argv[0];
+	string fileName = argv[1];
+/*
 	cout<<"File name: ";
 	cin>>fileName;
 	cout<<endl;
-
+*/
 	read(fileName);
 /*	for(int i=0;i<program.size();i++){
 		cout<<program[i]<<endl;

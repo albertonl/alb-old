@@ -35,32 +35,38 @@ REQUIREMENTS:
 
 - G++
 
+- Git
+
 - Any Linux distribution
 
 - Basic knowledge of Linux shell commands
 
-1. Clone this repository into your computer.
+- Have root permissions
 
-2. Open a terminal (Ctrl+Alt+T) and move to the directory where the repository has been cloned.
+1. Open a terminal (Ctrl+Alt+T) and move to your personal folder (type `cd ~`).
 
-3. Type `g++ alb.cpp -c`
+2. Clone this repository (type `git clone https://github.com/albertonl/alb.git`).
 
-4. After that, type `g++ alb.o -o alb`
+3. Type `cd alb/`.
+
+4. Type `chmod +x install.sh`.
+
+5. Run the installer script (install.sh) by typing `./install.sh`.
 
 # _Execution_:
 
-1. Write your program (can be used any file extension, but it is recommended to use `.alb`. Also, the file must be in the same directory as the interpreter executable -> `alb`).
+1. Write your program (can be used any file extension, but it is recommended to use `.alb`).
 
 2. Open a terminal (Ctrl+Alt+T) and move to the directory where your code is located.
 
-3. Type `./alb`
+3. Type `alb fileName` (changing `fileName` by the name of your program, including the file extension).
 
-4. The interpreter will ask you the name of your file. Then, write it.
-
-5. Then, the program should be running.
+4. Then, the program should be running.
 
 # _Latest updates:_
 
 - V 0.0.1: initial interpreter
 
 - V 0.0.2: statements can be separated by spaces and lines, and tabs can be used at the beginning of statements. Added comments (`//` at the beginning of the comment. Comments have to be alone in a line).
+
+- V 0.0.3: now the file name must be specificated when calling the interpreter in the same command. New installer script (only for Linux).
