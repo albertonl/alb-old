@@ -46,6 +46,7 @@ class Program{
 	public:
 		void read(string fileName);
 		void run(string fileName);
+		void print(string fileName);
 };
 
 void Program::read(string fileName){
@@ -113,15 +114,28 @@ void Program::read(string fileName){
 	}
 }
 
+void Program::print(string fileName){
+	for(int i=0;i<program.size();i++){
+		cout<<"Statement "<<i<<":"<<endl;
+		cout<<" - string: "<<program[i].statement<<endl;
+		cout<<" - level: "<<program[i].level<<endl;
+		cout<<" - index on level: "<<program[i].index_on_level<<endl<<endl;
+	}
+}
+
 int main(int argc, char *argv[]){
 	string curr_program = argv[0];
 	string fileName = argv[1];
+
+	for(int )
+
+	Program program;
 /*
 	cout<<"File name: ";
 	cin>>fileName;
 	cout<<endl;
 */
-	read(fileName);
+	program.read(fileName);
 /*	for(int i=0;i<program.size();i++){
 		cout<<program[i]<<endl;
 	}
