@@ -3,7 +3,7 @@ g++ alb.cpp -c
 g++ alb.o -o alb
 echo "Interpreter compiled and built successfully\n"
 
-sudo cp alb ~/../../usr/bin/
+sudo cp alb /usr/bin/
 rm alb
 rm alb.o
 
