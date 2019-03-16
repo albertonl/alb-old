@@ -12,9 +12,19 @@
 using namespace std;
 
 // RECOGNISED KEYWORDS
-const static std::vector<string> level_plus = {"BEGIN","repeat","if","elif","else"};
-const static std::vector<string> level_minus = {"END","ENDLOOP","FI"};
-
+const static std::vector<pair<string,string> > level_plus = {
+	{"BEGIN","primary"},
+	{"repeat","loop"},
+	{"if","control"},
+	{"elif","control"},
+	{"else","control"}
+};
+const static std::vector<pair<string,string> > level_minus = {
+	{"END","primary_end"},
+	{"ENDLOOP","loop_end"},
+	{"FI","control_end"}
+};
+/*
 // TYPES
 const std::map<string,string> level_plus_type = {
 	{"BEGIN","primary"},
@@ -28,7 +38,7 @@ const std::map<string,string> level_minus_type = {
 	{"ENDLOOP","loop_end"},
 	{"FI","control_end"}
 };
-
+*/
 
 //DEFINITION OF STATEMENT
 struct Statement{
@@ -83,7 +93,7 @@ void Program::read(const string fileName){
 				// aux_statement=actual_statement;
 				if(actual_statement.find(" ")!=string::npos){ // If spaces found
 					while(getline(ss,actual_statement,' ')){
-						for(int i=0;i<level_plus.size();i++){
+						/*for(int i=0;i<level_plus.size();i++){
 							if(actual_statement==level_plus[i]){ // If keyword in level_plus cat
 								begin_index.push_back(curr_index);
 								//type=level_plus[actual_statement];
@@ -95,22 +105,35 @@ void Program::read(const string fileName){
 									case "elif": type="control"; break;
 									case "else": type="control"; break;
 								}
-								*/
-								if(actual_statement=="BEGIN") type="primary";
+
+								/*if(actual_statement=="BEGIN") type="primary";
 								if(actual_statement=="repeat") type="loop";
 								if(actual_statement=="if") type="control";
 								if(actual_statement=="elif") type="control";
 								if(actual_statement=="else") type="control";
+								for(int j=0;j<level_plus.size();j++){
+									if(statemes)
+								}
 
 								statements.push_back(Statement(actual_statement,level,begin_index[begin_index.size()-1],type));
 								level++;
 								gotCoincidence=true;
 								curr_index++;
+							}*/
+							for(int i=0;i<level_plus.size();i++){
+								if(actual_statement==level_plus[i].first){ // If keyword in level_plus cat
+									begin_index.push_back(curr_index);
+									type=level_plus[i].second;
+									statements.push_back(Statement(actual_statement,level,begin_index[begin_index.size()-1],type));
+									level++;
+									gotCoincidence=true;
+									curr_index++;
+								}
 							}
 						}
 						for(int i=0;i<level_minus.size() and !gotCoincidence;i++){
-							if(actual_statement==level_minus[i]){
-								// type=level_minus[actual_statement];
+							if(actual_statement==level_minus[i].first){
+								type=level_minus[i].second;
 								/*
 								switch(actual_statement){
 									case "END": type="primary_end"; break;
@@ -118,9 +141,11 @@ void Program::read(const string fileName){
 									case "FI": type="control_end"; break;
 								}
 								*/
+								/*
 								if(actual_statement=="END") type="primary_end";
 								if(actual_statement=="ENDLOOP") type="loop_end";
 								if(actual_statement=="FI") type="control_end";
+								*/
 
 								level--;
 								statements.push_back(Statement(actual_statement,level,begin_index[begin_index.size()-1],type));
