@@ -1,3 +1,10 @@
+/*
+	The official ALB language interpreter
+	Version 0.0.4
+	Latest update: March 17th 2019
+	17032019 0954A
+*/
+
 #include <iostream>
 #include <cstdlib>
 #include <vector>
