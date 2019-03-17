@@ -66,6 +66,8 @@ class Program{
 		void run(const string fileName);
 		//void push_vec(string actual_statement);
 		void print(const string fileName);
+
+		int loop(std::vector<Statement> statements, int curr_index);
 };
 Program::Program(){
 	statements.push_back(Statement(" ",0,0," "));
@@ -79,142 +81,74 @@ void Program::read(const string fileName){
 	int curr_index=0;
 	std::vector<int> begin_index;
 	bool gotCoincidence=false;
-	// string aux_statement;
 
-	source.open(fileName.c_str(), ios::in);
+	source.open(fileName.c_str(),ios::in);
 
 	while(!source.eof()){ // While not finished
 		while(getline(source,actual_statement)){
 			cout<<"index "<<curr_index<<": "<<actual_statement<<endl;
-			if(actual_statement[0]!='/' and actual_statement[1]!='/'){ // if not a comment, then store it
-				// actual_statement.erase(remove(actual_statement.begin(), actual_statement.end(), '\t'), actual_statement.end()); // Remove all tabs
-				boost::algorithm::erase_all(actual_statement,"\t"); // Remove all tabs
+			if(actual_statement[0]!='/' && actual_statement[1]!='/'){ // If not a comment, then store it
+				boost::algorithm::erase_all(actual_statement,"\t");
 				stringstream ss(actual_statement);
-				// aux_statement=actual_statement;
+
 				if(actual_statement.find(" ")!=string::npos){ // If spaces found
 					while(getline(ss,actual_statement,' ')){
-						/*for(int i=0;i<level_plus.size();i++){
-							if(actual_statement==level_plus[i]){ // If keyword in level_plus cat
+						for(int i=0;i<level_plus.size();i++){
+							if(actual_statement==level_plus[i].first){ // If keyword in level_plus cat
 								begin_index.push_back(curr_index);
-								//type=level_plus[actual_statement];
-								/*
-								switch(actual_statement){
-									case "BEGIN": type="primary"; break;
-									case "repeat": type="loop"; break;
-									case "if": type="control"; break;
-									case "elif": type="control"; break;
-									case "else": type="control"; break;
-								}
-
-								/*if(actual_statement=="BEGIN") type="primary";
-								if(actual_statement=="repeat") type="loop";
-								if(actual_statement=="if") type="control";
-								if(actual_statement=="elif") type="control";
-								if(actual_statement=="else") type="control";
-								for(int j=0;j<level_plus.size();j++){
-									if(statemes)
-								}
-
+								type=level_plus[i].second;
 								statements.push_back(Statement(actual_statement,level,begin_index[begin_index.size()-1],type));
 								level++;
 								gotCoincidence=true;
-								curr_index++;
-							}*/
-							for(int i=0;i<level_plus.size();i++){
-								if(actual_statement==level_plus[i].first){ // If keyword in level_plus cat
-									begin_index.push_back(curr_index);
-									type=level_plus[i].second;
-									statements.push_back(Statement(actual_statement,level,begin_index[begin_index.size()-1],type));
-									level++;
-									gotCoincidence=true;
-									curr_index++;
-								}
-							}
-						}
-						for(int i=0;i<level_minus.size() and !gotCoincidence;i++){
-							if(actual_statement==level_minus[i].first){
-								type=level_minus[i].second;
-								/*
-								switch(actual_statement){
-									case "END": type="primary_end"; break;
-									case "ENDLOOP": type="loop_end"; break;
-									case "FI": type="control_end"; break;
-								}
-								*/
-								/*
-								if(actual_statement=="END") type="primary_end";
-								if(actual_statement=="ENDLOOP") type="loop_end";
-								if(actual_statement=="FI") type="control_end";
-								*/
-
-								level--;
-								statements.push_back(Statement(actual_statement,level,begin_index[begin_index.size()-1],type));
-								begin_index.pop_back();
-								gotCoincidence=true;
-								curr_index++;
 							}
 						}
 						if(!gotCoincidence){
-							type="general";
-							statements.push_back(Statement(actual_statement,level,begin_index[begin_index.size()-1],type));
-							curr_index++;
+							for(int i=0;i<level_minus.size();i++){
+								if(actual_statement==level_minus[i].first){ // If key in level_minus cat
+									type=level_minus[i].second;
+									level--;
+									statements.push_back(Statement(actual_statement,level,begin_index[begin_index.size()-1],type));
+									begin_index.pop_back();
+									gotCoincidence=true;
+								}
+							}
+							if(!gotCoincidence){ // If not any of the past two, it must be of general type
+								type="general";
+								statements.push_back(Statement(actual_statement,level,begin_index[begin_index.size()-1],type));
+							}
 						}
+						curr_index++;
+						gotCoincidence=false;
 					}
 				}
 				else{
 					for(int i=0;i<level_plus.size();i++){
-						if(actual_statement==level_plus[i]){ // If keyword in level_plus cat
+						if(actual_statement==level_plus[i].first){ // If keyword in level_plus cat
 							begin_index.push_back(curr_index);
-							//type=level_plus[actual_statement];
-							/*
-							switch(actual_statement){
-								case "BEGIN": type="primary"; break;
-								case "repeat": type="loop"; break;
-								case "if": type="control"; break;
-								case "elif": type="control"; break;
-								case "else": type="control"; break;
-							}
-							*/
-							if(actual_statement=="BEGIN") type="primary";
-							if(actual_statement=="repeat") type="loop";
-							if(actual_statement=="if") type="control";
-							if(actual_statement=="elif") type="control";
-							if(actual_statement=="else") type="control";
-
+							type=level_plus[i].second;
 							statements.push_back(Statement(actual_statement,level,begin_index[begin_index.size()-1],type));
 							level++;
 							gotCoincidence=true;
-							curr_index++;
-						}
-					}
-					for(int i=0;i<level_minus.size() and !gotCoincidence;i++){
-						if(actual_statement==level_minus[i]){
-							// type=level_minus[actual_statement];
-							/*
-							switch(actual_statement){
-								case "END": type="primary_end"; break;
-								case "ENDLOOP": type="loop_end"; break;
-								case "FI": type="control_end"; break;
-							}
-							*/
-							if(actual_statement=="END") type="primary_end";
-							if(actual_statement=="ENDLOOP") type="loop_end";
-							if(actual_statement=="FI") type="control_end";
-
-							level--;
-							statements.push_back(Statement(actual_statement,level,begin_index[begin_index.size()-1],type));
-							begin_index.pop_back();
-							gotCoincidence=true;
-							curr_index++;
 						}
 					}
 					if(!gotCoincidence){
-						type="general";
-						statements.push_back(Statement(actual_statement,level,begin_index[begin_index.size()-1],type));
-						curr_index++;
+						for(int i=0;i<level_minus.size();i++){
+							if(actual_statement==level_minus[i].first){ // If key in level_minus cat
+								type=level_minus[i].second;
+								level--;
+								statements.push_back(Statement(actual_statement,level,begin_index[begin_index.size()-1],type));
+								begin_index.pop_back();
+								gotCoincidence=true;
+							}
+						}
+						if(!gotCoincidence){ // If not any of the past two, it must be of general type
+							type="general";
+							statements.push_back(Statement(actual_statement,level,begin_index[begin_index.size()-1],type));
+						}
 					}
+					curr_index++;
+					gotCoincidence=false;
 				}
-				gotCoincidence=false;
 			}
 		}
 	}
@@ -226,13 +160,18 @@ void Program::print(const string fileName){
 		cout<<statements[i].st<<endl;
 	}
 	cout<<"File: "<<fileName<<endl;
-	cout<<"ST.\t\t\tLEVEL\t\tBEGIN INDEX\tTYPE"<<endl;
+	cout<<"ST.\t\tLEVEL\tBEGIN INDEX\tTYPE"<<endl;
 	for(int i=0;i<statements.size();i++){
 		cout<<statements[i].st<<"\t\t";
 		cout<<statements[i].level<<"\t\t";
-		cout<<statements[i].begin_index<<"\t\t\t";
+		cout<<statements[i].begin_index<<"\t";
 		cout<<statements[i].type<<endl;
 	}
+	cout<<endl;
+	for(int i=0;i<statements.size();i++){
+		cout<<statements[i].st<<" ";
+	}
+	cout<<endl;
 }
 /*
 void Program::run(const string fileName){
@@ -312,6 +251,46 @@ void Program::run(const string fileName){
 	}
 }
 */
+int Program::loop(std::vector<Statement> statements, int curr_index){
+	int i=0;
+	int iterationNum=0;
+	if(statements[curr_index+1]=="infinity"){
+		while(true){
+			for(i=curr_index+2;statements[i].st!="ENDLOOP";i++){
+				switch(statements[i].st){
+					case "repeat": i=loop(statements,i); break;
+					case "out": i=loop(statements,i); break;
+				}
+			}
+		}
+	}
+	else{
+		for(iterationNum=std::stoi(statements[curr_index+1]);iterationNum>0;iterationNum--){
+			for(i=curr_index+2;statements[i].st!="ENDLOOP";i++){
+				switch(statements[i].st){
+					case "repeat": i=loop(statements,i); break;
+					case "out": i=loop(statements,i); break;
+				}
+			}
+		}
+	}
+	return i;
+}
+void Program::run(const string fileName){
+	bool began=false;
+	int index=0;
+	for(int i=0;i<statements.size();i++){
+		if(statements[i].st=="BEGIN" && !began) began=true;
+		else if(statements[i].st=="END" && began) began=false;
+		else if(began){
+			if(statements[i].st=="BEGIN"){
+				cout<<error(fileName,1)<<endl;
+				exit(0);
+			}
+			else if(statements[i]=="repeat") i=loop(statements,i);
+		}
+	}
+}
 int main(int argc, char const *argv[]){;
 	const string fileName=argv[1];
 	Program program;
