@@ -1,8 +1,8 @@
-Example of infinite loop in ALB
-Feb 2019 @albertonl
+// Example of infinite loop in ALB
+// Feb 2019 @albertonl
 
 BEGIN
-repeat infinity
+repeat infinity 
   out Hello World! NEWL ;
 ENDLOOP
 END
