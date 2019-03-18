@@ -266,7 +266,7 @@ int Program::loop(std::vector<Statement> statements, int curr_index){
 			for(i=curr_index+2;statements[i].st!="ENDLOOP";i++){
 				switch(statements[i].st){
 					case "repeat": i=loop(statements,i); break;
-					case "out": i=loop(statements,i); break;
+					case "out": i=stdout(statements,i); break;
 				}
 			}
 		}
@@ -276,12 +276,64 @@ int Program::loop(std::vector<Statement> statements, int curr_index){
 			for(i=curr_index+2;statements[i].st!="ENDLOOP";i++){
 				switch(statements[i].st){
 					case "repeat": i=loop(statements,i); break;
-					case "out": i=loop(statements,i); break;
+					case "out": i=stdout(statements,i); break;
 				}
 			}
 		}
 	}
 	return i;
+}
+int Program::stdout(std::vector<Statement> statements,int curr_index){
+	int i=0;
+	int total=0;
+	string actualString;
+
+	if(statements[curr_index]=="out{" || statements[curr_index+1]=="{"){
+		for(i=curr_index+2;statements[i]!="}";i++){
+			if(statements[i]==":string"){
+				i++;
+				actualString=statements[i];
+				while(actualString[actualString.length()-1]!="\""){
+					if(actualString[0]=="\""){
+						for(int j=1;j<actualString.length();j++){
+							cout<<actualString[j];
+						}
+						cout<<" ";
+
+					}
+					if(actualString=="NEWL") cout<<endl;
+					if(actualString==";") break;
+					i++;
+				}
+			}
+			if(statements[i]==":int" || statements[i]==":float"){
+				i++;
+				actualString=statements[i];
+				while(actualString[actualString.length()-1]!=";"){
+					if(actualString[0]!=";"){
+						cout<<std::stoi(actualString);
+						if(total==0){
+							if(actualString=="+"){
+								total+=(std::stoi(statements[i-1])+std::stoi(statements[i+1]));
+							}
+							if(actualString=="-"){
+								total-=(std::stoi(statements[i-1])-std::stoi(statements[i+1]));
+							}
+							if(actualString=="*"){
+								total*=(std::stoi(statements[i-1])*std::stoi(statements[i+1]));
+							}
+							if(actualString=="/"){
+								total/=(std::stoi(statements[i-1])/std::stoi(statements[i+1]));
+							}
+						}
+					}
+					if(actualString=="NEWL") cout<<endl;
+					if(actualString==";") break;
+					i++;
+				}
+			}
+		}
+	}
 }
 void Program::run(const string fileName){
 	bool began=false;
