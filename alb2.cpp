@@ -25,12 +25,12 @@ const static std::vector<pair<string,string> > level_plus = {
 	{"if","control"},
 	{"elif","control"},
 	{"else","control"}
-};
+}
 const static std::vector<pair<string,string> > level_minus = {
 	{"END","primary_end"},
 	{"ENDLOOP","loop_end"},
 	{"FI","control_end"}
-};
+}
 /*
 // TYPES
 const std::map<string,string> level_plus_type = {
@@ -75,6 +75,7 @@ class Program{
 		void print(const string fileName);
 
 		int loop(std::vector<Statement> statements, int curr_index);
+		int stdout(std::vector<Statement> statements, int curr_index);
 };
 Program::Program(){
 	statements.push_back(Statement(" ",0,0," "));
@@ -261,28 +262,37 @@ void Program::run(const string fileName){
 int Program::loop(std::vector<Statement> statements, int curr_index){
 	int i=0;
 	int iterationNum=0;
-	if(statements[curr_index+1]=="infinity"){
+	string actualString;
+	if(statements[curr_index+1].st=="infinity"){
 		while(true){
 			for(i=curr_index+2;statements[i].st!="ENDLOOP";i++){
-				switch(statements[i].st){
+				/*switch(statements[i].st){
 					case "repeat": i=loop(statements,i); break;
 					case "out": i=stdout(statements,i); break;
-				}
+				}*/
+				if(statements[i].st=="repeat") i=this->loop(statements,i);
+				else if(statements[i].st=="out") i=this->stdout(statements,i);
 			}
 		}
 	}
 	else{
-		for(iterationNum=std::stoi(statements[curr_index+1]);iterationNum>0;iterationNum--){
+		actualString=statements[curr_index+1].st;
+		for(int j=0;j<actualString.length();j++){
+			iterationNum+=actualString[j]-'0';
+		}
+		for(iterationNum;iterationNum>0;iterationNum--){
 			for(i=curr_index+2;statements[i].st!="ENDLOOP";i++){
-				switch(statements[i].st){
+				/*switch(statements[i].st){
 					case "repeat": i=loop(statements,i); break;
 					case "out": i=stdout(statements,i); break;
-				}
+				}*/
+				if(statements[i].st=="repeat") i=this->loop(statements,i);
+				else if(statements[i].st=="out") i=this->stdout(statements,i);
 			}
 		}
 	}
 	return i;
-}
+}/*
 int Program::stdout(std::vector<Statement> statements,int curr_index){
 	int i=0;
 	int totali=0;
@@ -359,14 +369,14 @@ int Program::stdout(std::vector<Statement> statements,int curr_index){
 					if(actualString==";") break;
 					i++;
 				}
-			}*/
-			else if(statements[i]==":int"){
+			}
+			else if(statements[i].st==":int"){
 				i++;
-				actualString=statements[i];
+				actualString=statements[i].st;
 				while(actualString[actualString.length()-1]!=";"){
-					if(statements[i+1]!=";"){
+					if(statements[i+1].st!=";"){
 						if(totali==0){
-							switch(statements[i+1]){
+							switch(statements[i+1].st){
 								case '+':
 									i++;
 									totali+=std::stoi(statements[i-1])+std::stoi(statements[i+1]);
@@ -420,7 +430,7 @@ int Program::stdout(std::vector<Statement> statements,int curr_index){
 		}
 	}
 	return i;
-}
+}*/
 void Program::run(const string fileName){
 	bool began=false;
 	int index=0;
