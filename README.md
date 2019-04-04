@@ -72,3 +72,5 @@ REQUIREMENTS:
 - V 0.0.2: statements can be separated by spaces and lines, and tabs can be used at the beginning of statements. Added comments (`//` at the beginning of the comment. Comments have to be alone in a line).
 
 - V 0.0.3: now the file name must be specificated when calling the interpreter in the same command. New installer script (only for Linux).
+
+- V 0.0.3 B: added alb.nanorc for syntax coloring support for the ALB Programming Language in the Nano editor in GNU/Linux and UNIX based systems.
