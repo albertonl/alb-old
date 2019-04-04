@@ -1,0 +1,21 @@
+# ALB syntax for NANO editor
+
+syntax "alb" "\.alb$"
+magic "(ASCII|UTF-8 Unicode) ALB program text"
+comment "//"
+
+color brightyellow "\<(out|in)\>"
+color green "\<(if|else|elif|repeat)\>"
+color red "\<(BEGIN|END|VAR|ENDVAR|ENDLOOP|FI)\>"
+color brightblue "\<(infinity|NEWL)\>"
+color brightred "\<[A-Z_][0-9A-Z_]+\>"
+color brightblue "\<((s?size)|((u_?)?int(8|16|32|64|ptr)))_t\>"
+color brightmagenta "'([^'\]|(\\["'abfnrtv\\]))'" "'\\(([0-3]?[0-7]{1,2}))'" "'\\x[0-9A-Fa-f]{1,2}'"
+color magenta "\<(string|int|float|char|var)\>"
+
+# Strings.
+color brightyellow ""([^"]|\\")*"" "<[^[:blank:]=]*>"
+
+# Comments.
+color brightblue "//.*"
+color brightblue start="/\*" end="\*/"
