@@ -25,12 +25,12 @@ const static std::vector<pair<string,string> > level_plus = {
 	{"if","control"},
 	{"elif","control"},
 	{"else","control"}
-}
+};
 const static std::vector<pair<string,string> > level_minus = {
 	{"END","primary_end"},
 	{"ENDLOOP","loop_end"},
 	{"FI","control_end"}
-}
+};
 /*
 // TYPES
 const std::map<string,string> level_plus_type = {
@@ -292,7 +292,7 @@ int Program::loop(std::vector<Statement> statements, int curr_index){
 		}
 	}
 	return i;
-}/*
+}
 int Program::stdout(std::vector<Statement> statements,int curr_index){
 	int i=0;
 	int totali=0;
@@ -300,13 +300,13 @@ int Program::stdout(std::vector<Statement> statements,int curr_index){
 
 	string actualString;
 
-	if(statements[curr_index]=="out{" || statements[curr_index+1]=="{"){
-		for(i=curr_index+2;statements[i]!="}";i++){
-			if(statements[i]==":string"){
+	if(statements[curr_index].st=="out{" || statements[curr_index+1].st=="{"){
+		for(i=curr_index+2;statements[i].st!="}";i++){
+			if(statements[i].st==":string"){
 				i++;
-				actualString=statements[i];
-				while(actualString[actualString.length()-1]!="\""){
-					if(actualString[0]=="\""){
+				actualString=statements[i].st;
+				while(actualString[actualString.length()-1]!='\"'){
+					if(actualString[0]=='\"'){
 						for(int j=1;j<actualString.length();j++){
 							cout<<actualString[j];
 						}
@@ -317,25 +317,25 @@ int Program::stdout(std::vector<Statement> statements,int curr_index){
 					if(actualString==";") break;
 					i++;
 				}
-			}/*
-			else if(statements[i]==":int"){
+			}
+			else if(statements[i].st==":int"){
 				i++;
-				actualString=statements[i];
-				while(actualString[actualString.length()-1]!=";"){
-					if(actualString[0]!=";"){
+				actualString=statements[i].st;
+				while(actualString[actualString.length()-1]!=';'){
+					if(actualString[0]!=';'){
 						cout<<std::stoi(actualString);
 						if(totali==0){
 							if(actualString=="+"){
-								total+=(std::stoi(statements[i-1])+std::stoi(statements[i+1]));
+								totali+=std::stoi(statements[i-1].st)+std::stoi(statements[i+1].st);
 							}
 							if(actualString=="-"){
-								total-=(std::stoi(statements[i-1])-std::stoi(statements[i+1]));
+								totali-=std::stoi(statements[i-1].st)-std::stoi(statements[i+1].st);
 							}
 							if(actualString=="*"){
-								total*=(std::stoi(statements[i-1])*std::stoi(statements[i+1]));
+								totali*=std::stoi(statements[i-1].st)*std::stoi(statements[i+1].st);
 							}
 							if(actualString=="/"){
-								total/=(std::stoi(statements[i-1])/std::stoi(statements[i+1]));
+								totali/=std::stoi(statements[i-1].st)/std::stoi(statements[i+1].st);
 							}
 						}
 					}
@@ -343,7 +343,7 @@ int Program::stdout(std::vector<Statement> statements,int curr_index){
 					if(actualString==";") break;
 					i++;
 				}
-			}
+			}/*
 			else if(statements[i]==":float"){
 				i++;
 				actualString=statements[i];
@@ -352,16 +352,16 @@ int Program::stdout(std::vector<Statement> statements,int curr_index){
 						cout<<std::stof(actualString);
 						if(total==0){
 							if(actualString=="+"){
-								total+=(std::stoi(statements[i-1])+std::stoi(statements[i+1]));
+								total+=(std::stoi(statements[i-1].st)+std::stoi(statements[i+1].st));
 							}
 							if(actualString=="-"){
-								total-=(std::stoi(statements[i-1])-std::stoi(statements[i+1]));
+								total-=(std::stoi(statements[i-1].st)-std::stoi(statements[i+1].st));
 							}
 							if(actualString=="*"){
-								total*=(std::stoi(statements[i-1])*std::stoi(statements[i+1]));
+								total*=(std::stoi(statements[i-1].st)*std::stoi(statements[i+1].st));
 							}
 							if(actualString=="/"){
-								total/=(std::stoi(statements[i-1])/std::stoi(statements[i+1]));
+								total/=(std::stoi(statements[i-1].st)/std::stoi(statements[i+1].st));
 							}
 						}
 					}
@@ -373,25 +373,25 @@ int Program::stdout(std::vector<Statement> statements,int curr_index){
 			else if(statements[i].st==":int"){
 				i++;
 				actualString=statements[i].st;
-				while(actualString[actualString.length()-1]!=";"){
-					if(statements[i+1].st!=";"){
+				while(actualString[actualString.length()-1]!=';'){
+					if(statements[i+1].st.st!=";"){
 						if(totali==0){
-							switch(statements[i+1].st){
+							switch(statements[i+1].st.st){
 								case '+':
 									i++;
-									totali+=std::stoi(statements[i-1])+std::stoi(statements[i+1]);
+									totali+=std::stoi(statements[i-1].st)+std::stoi(statements[i+1].st);
 									break;
 								case '-':
 									i++;
-									totali-=std::stoi(statements[i-1])-std::stoi(statements[i+1]);
+									totali-=std::stoi(statements[i-1].st)-std::stoi(statements[i+1].st);
 									break;
 								case '*':
 									i++;
-									totali*=std::stoi(statements[i-1])*std::stoi(statements[i+1]);
+									totali*=std::stoi(statements[i-1].st)*std::stoi(statements[i+1].st);
 									break;
 								case '/':
 									i++;
-									totali/=std::stoi(statements[i-1])/std::stoi(statements[i-1]);
+									totali/=std::stoi(statements[i-1].st)/std::stoi(statements[i-1].st);
 									break;
 								default:
 									totali=std::stoi(statements[i]);
@@ -399,22 +399,22 @@ int Program::stdout(std::vector<Statement> statements,int curr_index){
 							}
 						}
 						else{
-							switch(statements[i+1]){
+							switch(statements[i+1].st){
 								case '+':
 									i++;
-									totali+=std::stoi(statements[i+1]);
+									totali+=std::stoi(statements[i+1].st);
 									break;
 								case '-':
 									i++;
-									totali-=std::stoi(statements[i+1]);
+									totali-=std::stoi(statements[i+1].st);
 									break;
 								case '*':
 									i++;
-									totali*=std::stoi(statements[i+1]);
+									totali*=std::stoi(statements[i+1].st);
 									break;
 								case '/':
 									i++;
-									totali/=std::stoi(statements[i-1]);
+									totali/=std::stoi(statements[i-1].st);
 									break;
 								default:
 									totali=std::stoi(statements[i]);
@@ -426,11 +426,11 @@ int Program::stdout(std::vector<Statement> statements,int curr_index){
 					i++;
 				}
 				cout<<totali;
-			}
+			}*/
 		}
 	}
 	return i;
-}*/
+}
 void Program::run(const string fileName){
 	bool began=false;
 	int index=0;
@@ -439,10 +439,11 @@ void Program::run(const string fileName){
 		else if(statements[i].st=="END" && began) began=false;
 		else if(began){
 			if(statements[i].st=="BEGIN"){
-				cout<<error(fileName,1)<<endl;
+				// cout<<error(fileName,1)<<endl;
+				cout<<"Error 1"<<endl;
 				exit(0);
 			}
-			else if(statements[i]=="repeat") i=loop(statements,i);
+			else if(statements[i].st=="repeat") i=loop(statements,i);
 		}
 	}
 }
