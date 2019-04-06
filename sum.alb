@@ -1,5 +1,6 @@
 // Addition in stdout in ALB
-// Albert Navalon Lillo (C) April 2019
+// Alberto Navalon Lillo (C) April 2019
+// GNU Public License 3.0
 
 BEGIN
 	out{
