@@ -2,7 +2,7 @@
 
 The _ALB_ programming language (in development).
 
-[![current version 0.0.4](https://img.shields.io/badge/ALB%20current%20version-0.0.4-brightgreen.svg)](http://proshare.epizy.com) [![last stable version 0.0.2](https://img.shields.io/badge/last%20stable%20version-0.0.2-brightgreen.svg)](http://proshare.epizy.com) [![build passing](https://img.shields.io/badge/build-passing-brightgreen.svg)](http://proshare.epizy.com)
+[![current version 0.0.4](https://img.shields.io/badge/ALB%20current%20version-0.0.4-brightgreen.svg)](http://proshare.epizy.com) [![last stable version 0.0.4](https://img.shields.io/badge/last%20stable%20version-0.0.4-brightgreen.svg)](http://proshare.epizy.com) [![build passing](https://img.shields.io/badge/build-passing-brightgreen.svg)](http://proshare.epizy.com)
 
 # *Keywords available:*
 
