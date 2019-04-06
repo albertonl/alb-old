@@ -1,0 +1,11 @@
+// Addition of simple numbers in ALB
+// Alberto Navalon Lillo (C) April 2019
+// GNU Public License 3.0
+
+BEGIN
+	out{
+		:string "1+1 = " ;
+		:int 1 + 1 ;
+		:string NEWL ;
+	}
+END

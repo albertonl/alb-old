@@ -1,0 +1,10 @@
+// Example of infinite loop in ALB
+// Feb 2019 @albertonl
+
+BEGIN
+	repeat infinity
+		out{
+			:string "Hello world!" NEWL ;
+		}
+	ENDLOOP
+END

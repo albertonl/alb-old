@@ -1,0 +1,92 @@
+\documentclass[12pt]{book}
+\usepackage[english]{babel}
+\usepackage[utf8]{inputenc}
+
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{bookman}
+\usepackage[document]{ragged2e}
+\setcounter{section}{+1}
+\lstset{
+	backgroundcolor=\color{black!5},
+	basicstyle=\footnotesize\ttfamily\small,
+}
+
+\def\@makechapterhead#1{%
+  \vspace*{50\p@}%                                 % Insert 50pt (vertical) space
+  {\parindent \z@ \raggedright \normalfont         % No paragraph indent, ragged right
+    \ifnum \c@secnumdepth >\m@ne                   % If you should number chapters
+      \if@mainmatter                               % ... and you're in \mainmatter
+        \huge\bfseries \@chapapp\space \thechapter % huge, bold, Chapter + number
+        \par\nobreak                               % paragraph break without page break
+        \vskip 20\p@                               % Insert 20pt (vertical) space
+      \fi
+    \fi
+    \interlinepenalty\@M                           % Penalty
+    \Huge \bfseries #1\par\nobreak                 % Huge, bold chapter title
+    \vskip 40\p@                                   % Insert 40pt (vertical) space
+  }}
+
+\title{The ALB Programming Language}
+\author{Alberto Navalón Lillo}
+
+\begin{document}
+
+\frontmatter
+\maketitle
+\tableofcontents
+\mainmatter
+
+\addcontentsline{toc}{chapter}{Introduction}
+
+% Introduction chapter
+\chapter*{Introduction}
+After several months thinking about it, I decided to create my own programming language. I have always wanted to do something big, and this matches the definition. By now, it is just a bunch of lines of C++ code that follows some orders of other code. But in a future time, I hope on this being a big project and used by other people to do their work.\\
+\bigskip
+
+The ALB language is an interpreted language, such as BASIC, MATLAB, JavaScript, Perl, PHP, Python, R... This has its advantages. For example, platform independence (by now, the cross-platform executing is not too advanced, so we still have some troubles with it), dynamic typing and scoping, and reflection. But, as everything, it has also its disadvantages: probably the main disadvantage would be the slower execution compared to direct native machine code.\\
+\bigskip
+
+This book is supposed to help beginners and experienced programmers to learn and understand the ALB Programming Language, and its simple structure. If you have some experience on programming, you will probably notice some similarities in ALB code with languages such as Python, C++ and Bash, which are the main three influencers of ALB. Also, I would like to highlight the main purpose of the ALB language: \textit{make a powerful language, suitable for beginners and experts}.\\
+\bigskip
+
+% \hfill\begin{minipage}{0.5\linewidth}
+%Alberto Navalón Lillo\newline
+%textit{April 6th 2019}
+%\end{minipage}
+\begin{flushright}
+\textsc{Alberto Navalón Lillo}\newline
+\textit{April 6th 2019}
+\end{flushright}
+% The basics chapter
+\chapter[The basics]{\centering The basics}
+\section{Hello World!}
+
+First of all, as in every single programming book on Earth, we will cover the classic \textit{Hello World!} in the ALB Programming Language.\bigskip
+\begin{lstlisting}
+BEGIN
+	out {
+		:string "Hello World!" NEWL ;
+	}
+END
+\end{lstlisting}
+\bigskip
+Now, the explanation of all this stuff. You will notice that the code begins with the keyword \textbf{BEGIN} and ends with the keyword \textbf{END}. Well, those are delimiters of the code that will be executed. Anything not between these keywords will not give any errors, but it will be ignored by the interpreter. Now you have to remember to write these delimiters in all of your ALB programs, and put your code between them.\\
+\bigskip
+
+Apart from the \textbf{BEGIN} and \textbf{END} delimiters, we also have an \textbf{out} structure. This structure, delimited by curly braces, Note that it is not mandatory to leave a white space between the \textbf{out} keyword and the opening brace, so it can also be:
+\bigskip
+\begin{lstlisting}
+out{
+	:string "Hello World!" NEWL ;
+}
+\end{lstlisting}
+\bigskip
+The \textbf{out} structure and function is part of the standart output, or \textit{stdout}, about which we will be talking later. Inside an \textbf{out} structure, composed of several statements, you need to identify the type of the output by typing a colon, followed by the type \textbf{not leaving any white space between them}. The types of outputs are the following:
+\begin{itemize}
+	\item \textbf{string} or \textbf{str}: array of characters (texts, words...). Must be between double quotes (``'').
+	\item \textbf{int}: short for integer. Numeric. Can hold an integer value between -2147483647 and 2147483647. Discussed Numeric Types section.
+	\item \textbf{float}: short for floating-point number. Numeric. Can hold a decimal value between 1.17549e-038 and 3.40282e+038. Discussed in Numeric Types section.
+	\item \textbf{char}: an only character. Must be an ASCII character and it must also be between single quotes.
+\end{itemize}
+\end{document}
