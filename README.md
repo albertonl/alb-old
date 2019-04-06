@@ -2,7 +2,7 @@
 
 The _ALB_ programming language (in development).
 
-[![current version 0.0.3B](https://img.shields.io/badge/ALB%20current%20version-0.0.3B-brightgreen.svg)](http://proshare.epizy.com) [![last stable version 0.0.2](https://img.shields.io/badge/last%20stable%20version-0.0.2-brightgreen.svg)](http://proshare.epizy.com) [![build not passing](https://img.shields.io/badge/build-not%20passing-red.svg)](http://proshare.epizy.com)
+[![current version 0.0.4](https://img.shields.io/badge/ALB%20current%20version-0.0.4-brightgreen.svg)](http://proshare.epizy.com) [![last stable version 0.0.2](https://img.shields.io/badge/last%20stable%20version-0.0.2-brightgreen.svg)](http://proshare.epizy.com) [![build passing](https://img.shields.io/badge/build-passing-brightgreen.svg)](http://proshare.epizy.com)
 
 # *Keywords available:*
 
@@ -26,7 +26,7 @@ The _ALB_ programming language (in development).
 # _The_ ALB _program structure:_
 
 ```
-(Any text before a BEGIN or after an END statement would be ingored by the interpreter. So this can be used as comments)
+// Comments...
 BEGIN
 (some code...)
 END
@@ -76,3 +76,5 @@ REQUIREMENTS:
 - V 0.0.3: now the file name must be specificated when calling the interpreter in the same command. New installer script (only for Linux).
 
 - V 0.0.3 B: added alb.nanorc for syntax coloring support for the ALB Programming Language in the Nano editor in GNU/Linux and UNIX based systems.
+
+- V 0.0.4: various bug fixes.
