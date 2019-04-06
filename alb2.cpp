@@ -2,7 +2,7 @@
 	The official ALB language interpreter
 	Version 0.0.4
 	Latest update: April 6th 2019
-	06042019 1628A
+	06042019 1810A
 */
 
 #include <iostream>
@@ -507,7 +507,7 @@ int Program::stdout(std::vector<Statement> statements,int curr_index){
 			totali=0;
 			totalf=0.0;
 			aux=0;
-			
+
 			actualString="";
 
 			broken=false;
