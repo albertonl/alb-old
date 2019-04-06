@@ -260,18 +260,22 @@ void Program::run(const string fileName){
 }
 */
 int Program::loop(std::vector<Statement> statements, int curr_index){
-	int i=0;
-	int iterationNum=0;
-	string actualString;
+	//cout<<"In loop()"<<endl;
+	int i=0; //cout<<"i declared"<<endl;
+	int iterationNum=0; //cout<<"iterationNum declared"<<endl;
+	string actualString; //cout<<"actualString declared"<<endl;
+	//cout<<"statements[curr_index+1].st==\""<<statements[curr_index+1].st<<"\""<<endl;
 	if(statements[curr_index+1].st=="infinity"){
+		// cout<<"Entering infinite loop..."<<endl;
 		while(true){
 			for(i=curr_index+2;statements[i].st!="ENDLOOP";i++){
+				//cout<<statements[i].st<<endl;
 				/*switch(statements[i].st){
 					case "repeat": i=loop(statements,i); break;
 					case "out": i=stdout(statements,i); break;
 				}*/
 				if(statements[i].st=="repeat") i=this->loop(statements,i);
-				else if(statements[i].st=="out") i=this->stdout(statements,i);
+				else if(statements[i].st=="out" || statements[i].st=="out{") i=this->stdout(statements,i);
 			}
 		}
 	}
@@ -294,18 +298,25 @@ int Program::loop(std::vector<Statement> statements, int curr_index){
 	return i;
 }
 int Program::stdout(std::vector<Statement> statements,int curr_index){
+	// cout<<"I'm in stdout()"<<endl;
 	int i=0;
+	int aux=0;
 	int totali=0;
 	float totalf=0.0;
+
+	bool broken=false;
+	//bool opened=false;
 
 	string actualString;
 
 	if(statements[curr_index].st=="out{" || statements[curr_index+1].st=="{"){
-		for(i=curr_index+2;statements[i].st!="}";i++){
+		//cout<<"In loop"<<endl;
+		for(i=curr_index+1;statements[i].st!="}";i++){
+			//cout<<statements[i].st<<endl;
 			if(statements[i].st==":string"){
+				//cout<<"Found :string"<<endl;
 				i++;
-				actualString=statements[i].st;
-				while(actualString[actualString.length()-1]!='\"'){
+				/*while(actualString[actualString.length()-1]!='\"'){
 					if(actualString[0]=='\"'){
 						for(int j=1;j<actualString.length();j++){
 							cout<<actualString[j];
@@ -316,6 +327,26 @@ int Program::stdout(std::vector<Statement> statements,int curr_index){
 					if(actualString=="NEWL") cout<<endl;
 					if(actualString==";") break;
 					i++;
+					actualString=statements[i].st;
+				}
+				if(actualString[actualString.length()-1]=='\"'){
+					for(int j=0;j<actualString.length()-1;j++){
+						cout<<actualString[j];
+					}
+				}*/
+				for(aux=i;broken==false;aux++){
+					actualString=statements[aux].st;
+					//if(actualString[0]=='\"' && !opened) opened=true;
+					if(actualString=="NEWL") cout<<endl;
+					else if(actualString==";") broken=true;
+					else if(actualString[0]=='\"'){
+						for(int j=0;j<actualString.length();j++){
+							if(aux==i && j==0) j++;
+							else if(actualString[j]=='\"') break;
+							cout<<actualString[j];
+						}
+						cout<<" ";
+					}
 				}
 			}
 			else if(statements[i].st==":int"){
@@ -432,9 +463,12 @@ int Program::stdout(std::vector<Statement> statements,int curr_index){
 	return i;
 }
 void Program::run(const string fileName){
+	cout<<"I'm in run()"<<endl;
 	bool began=false;
 	int index=0;
+	cout<<"Variables declared"<<endl;
 	for(int i=0;i<statements.size();i++){
+		cout<<"Current index: "<<i<<endl;
 		if(statements[i].st=="BEGIN" && !began) began=true;
 		else if(statements[i].st=="END" && began) began=false;
 		else if(began){
@@ -451,6 +485,7 @@ int main(int argc, char const *argv[]){;
 	const string fileName=argv[1];
 	Program program;
 	program.read(fileName);
-	program.print(fileName);
+	//program.print(fileName);
+	program.run(fileName);
 	return 0;
 }
