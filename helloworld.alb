@@ -1,6 +1,8 @@
-Hello World! in ALB
-Feb 2019 @albertonl
+// Hello World! in ALB
+// Alberto Navalon Lillo (C) April 2019
 
 BEGIN
-out Hello World! NEWL ;
+	out{
+		:string "Hello World!" NEWL ;
+	}
 END

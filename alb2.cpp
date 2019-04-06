@@ -311,6 +311,7 @@ int Program::stdout(std::vector<Statement> statements,int curr_index){
 
 	if(statements[curr_index].st=="out{" || statements[curr_index+1].st=="{"){
 		//cout<<"In loop"<<endl;
+		if(statements[¢urr_index+1].st=="{" && statements[curr_index].st!="out{") curr_index++;
 		for(i=curr_index+1;statements[i].st!="}";i++){
 			//cout<<statements[i].st<<endl;
 			if(statements[i].st==":string"){
