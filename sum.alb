@@ -1,0 +1,10 @@
+// Addition in stdout in ALB
+// Albert Navalon Lillo (C) April 2019
+
+BEGIN
+	out{
+		:string "1+1 = " ;
+		:int 1 + 1  ;
+		:string NEWL ;
+	}
+END

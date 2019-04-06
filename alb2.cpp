@@ -94,7 +94,7 @@ void Program::read(const string fileName){
 
 	while(!source.eof()){ // While not finished
 		while(getline(source,actual_statement)){
-			cout<<"index "<<curr_index<<": "<<actual_statement<<endl;
+			//cout<<"index "<<curr_index<<": "<<actual_statement<<endl;
 			if(actual_statement[0]!='/' && actual_statement[1]!='/'){ // If not a comment, then store it
 				boost::algorithm::erase_all(actual_statement,"\t");
 				stringstream ss(actual_statement);
@@ -306,12 +306,13 @@ int Program::stdout(std::vector<Statement> statements,int curr_index){
 
 	bool broken=false;
 	bool opened=false;
+	bool nospace=false;
 
 	string actualString;
 
 	if(statements[curr_index].st=="out{" || statements[curr_index+1].st=="{"){
 		//cout<<"In loop"<<endl;
-		if(statements[¢urr_index+1].st=="{" && statements[curr_index].st!="out{") curr_index++;
+		if(statements[curr_index+1].st=="{" && statements[curr_index].st!="out{") curr_index++;
 		for(i=curr_index+1;statements[i].st!="}";i++){
 			//cout<<statements[i].st<<endl;
 			if(statements[i].st==":string"){
@@ -344,10 +345,13 @@ int Program::stdout(std::vector<Statement> statements,int curr_index){
 						opened=true;
 						for(int j=1;j<actualString.length();j++){
 							//if(aux==i && j==0) j++;
-							if(actualString[j]=='\"') break;
+							if(actualString[j]=='\"'){
+								nospace=true;
+								break;
+							}
 							cout<<actualString[j];
 						}
-						cout<<" ";
+						if(!nospace) cout<<" ";
 					}
 					else if(actualString[actualString.length()-1]=='\"' && opened){
 						for(int j=0;j<actualString.length()-1;j++){
@@ -361,13 +365,39 @@ int Program::stdout(std::vector<Statement> statements,int curr_index){
 							if(actualString[j]=='\"') break;
 							cout<<actualString[j];
 						}
+						cout<<" ";
 					}
 				}
 			}
 			else if(statements[i].st==":int"){
 				i++;
 				actualString=statements[i].st;
+				while(actualString!=";"){
+					//cout<<actualString<<endl;
+					//if(actualString=="NEWL") cout<<totali<<endl;
+					if(actualString==";") break;
+					else if(totali==0){
+						totali=std::stoi(actualString);
+						//cout<<"totali0: "<<totali<<endl;
+					}
+					else{
+						if(actualString=="+") totali+=std::stoi(statements[i+1].st);
+						else if(actualString=="-") totali-=std::stoi(statements[i+1].st);
+						else if(actualString=="*") totali*=std::stoi(statements[i+1].st);
+						else if(actualString=="/") totali/=std::stoi(statements[i+1].st);
+						i++;
+					}
+					i++;
+					actualString=statements[i].st;
+				}
+				cout<<totali;
+			}
+			/*
+			else if(statements[i].st==":int"){
+				i++;
+				// actualString=statements[i].st;
 				while(actualString[actualString.length()-1]!=';'){
+					actualString=statements[i].st;
 					if(actualString[0]!=';'){
 						cout<<std::stoi(actualString);
 						if(totali==0){
@@ -473,17 +503,27 @@ int Program::stdout(std::vector<Statement> statements,int curr_index){
 				}
 				cout<<totali;
 			}*/
+			// Variable re-initialization
+			totali=0;
+			totalf=0.0;
+			aux=0;
+			
+			actualString="";
+
+			broken=false;
+			opened=false;
+			nospace=false;
 		}
 	}
 	return i;
 }
 void Program::run(const string fileName){
-	cout<<"I'm in run()"<<endl;
+	//cout<<"I'm in run()"<<endl;
 	bool began=false;
 	int index=0;
-	cout<<"Variables declared"<<endl;
+	//cout<<"Variables declared"<<endl;
 	for(int i=0;i<statements.size();i++){
-		cout<<"Current index: "<<i<<endl;
+		//cout<<"Current index: "<<i<<endl;
 		if(statements[i].st=="BEGIN" && !began) began=true;
 		else if(statements[i].st=="END" && began) began=false;
 		else if(began){
@@ -493,6 +533,8 @@ void Program::run(const string fileName){
 				exit(0);
 			}
 			else if(statements[i].st=="repeat") i=loop(statements,i);
+			else if(statements[i].st=="out{") i=stdout(statements,i);
+			else if(statements[i].st=="out" && statements[i+1].st=="{") i=stdout(statements,i);
 		}
 	}
 }
@@ -502,5 +544,6 @@ int main(int argc, char const *argv[]){;
 	program.read(fileName);
 	//program.print(fileName);
 	program.run(fileName);
+	cout<<endl;
 	return 0;
 }
