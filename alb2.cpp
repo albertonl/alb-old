@@ -1,8 +1,8 @@
 /*
 	The official ALB language interpreter
 	Version 0.0.4
-	Latest update: March 17th 2019
-	17032019 0954A
+	Latest update: April 6th 2019
+	06042019 1628A
 */
 
 #include <iostream>
