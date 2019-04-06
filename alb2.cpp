@@ -305,7 +305,7 @@ int Program::stdout(std::vector<Statement> statements,int curr_index){
 	float totalf=0.0;
 
 	bool broken=false;
-	//bool opened=false;
+	bool opened=false;
 
 	string actualString;
 
@@ -339,13 +339,27 @@ int Program::stdout(std::vector<Statement> statements,int curr_index){
 					//if(actualString[0]=='\"' && !opened) opened=true;
 					if(actualString=="NEWL") cout<<endl;
 					else if(actualString==";") broken=true;
-					else if(actualString[0]=='\"'){
-						for(int j=0;j<actualString.length();j++){
-							if(aux==i && j==0) j++;
-							else if(actualString[j]=='\"') break;
+					else if(actualString[0]=='\"' && !opened){
+						opened=true;
+						for(int j=1;j<actualString.length();j++){
+							//if(aux==i && j==0) j++;
+							if(actualString[j]=='\"') break;
 							cout<<actualString[j];
 						}
 						cout<<" ";
+					}
+					else if(actualString[actualString.length()-1]=='\"' && opened){
+						for(int j=0;j<actualString.length()-1;j++){
+							if(actualString[j]=='\"') break;
+							cout<<actualString[j];
+						}
+						opened=false;
+					}
+					else if(opened){
+						for(int j=0;j<actualString.length();j++){
+							if(actualString[j]=='\"') break;
+							cout<<actualString[j];
+						}
 					}
 				}
 			}
