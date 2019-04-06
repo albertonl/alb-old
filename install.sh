@@ -7,11 +7,11 @@ sudo cp alb /usr/bin/
 rm alb
 rm alb.o
 echo "\n"
-echo "    _    _     ____  \n"
-echo "   / \  | |   | __ ) \n"
-echo "  / _ \ | |   |  _ \ \n"
-echo " / ___ \| |___| |_) |\n"
-echo "/_/   \_\_____|____/ \n"
+echo "    _    _     ____  "
+echo "   / \  | |   | __ ) "
+echo "  / _ \ | |   |  _ \ "
+echo " / ___ \| |___| |_) |"
+echo "/_/   \_\_____|____/ "
 echo "The ALB interpreter is now ready to use in version 0.0.4. Type \"alb fileName\" to run your code.\n"
 
 read -p "Do you want to install the syntax highlighting package for the Nano editor? [Y/n] " answer
