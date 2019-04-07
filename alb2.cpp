@@ -316,9 +316,7 @@ int Program::stdout(std::vector<Statement> statements,int curr_index){
 		for(i=curr_index+1;statements[i].st!="}";i++){
 			//cout<<statements[i].st<<endl;
 			
-if(statements[i].st==":string" || 
-statements[i].st==":str"){	
-//cout<<"Found :string"<<endl;
+			if(statements[i].st==":string" || statements[i].st==":str"){
 				i++;
 				/*while(actualString[actualString.length()-1]!='\"'){
 					if(actualString[0]=='\"'){
@@ -394,10 +392,8 @@ statements[i].st==":str"){
 				}
 				cout<<totali;
 			}
-			else 
-if(statements[i].st==":newline"){
-				
-cout<<endl;
+			else if(statements[i].st==":newline" || statements[i].st==":newl"){
+				cout<<endl;
 			}		
 /*
 			else if(statements[i].st==":int"){
