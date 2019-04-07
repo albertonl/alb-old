@@ -82,11 +82,27 @@ out{
 }
 \end{lstlisting}
 \bigskip
-The \textbf{out} structure and function is part of the standart output, or \textit{stdout}, about which we will be talking later. Inside an \textbf{out} structure, composed of several statements, you need to identify the type of the output by typing a colon, followed by the type \textbf{not leaving any white space between them}. The types of outputs are the following:
+The \textbf{out} structure and function is part of the standart output, or \textit{stdout}, about which we will be talking later.
+
+\section{Stdout}
+The standard output (or \textit{stdout} for short), is part of the base of every programming language. The \textit{stdout} shows the user (or whoever is looking at the screen of your computer) some data that ALB is processing during runtime. In ALB, the standard output is basically formed by the \textbf{out} structure/function and the \textbf{specific outs}, about which we will be talking later.
+\subsection{out}
+You have probably noticed the usage of \textbf{out} in the \textit{Hello World!} example in the 1.1 section. Well, this is a widely used structure/function in ALB, as it can easily show on screen the data selected. In the example, the selected data is the ``Hello World!'' string, but it can be of some other types:\\
+\bigskip
+Inside an \textbf{out} structure, composed of several statements, you need to identify the type of the output by typing a colon, followed by the type \textbf{not leaving any white space between them}. The types of outputs are the following:
 \begin{itemize}
-	\item \textbf{string} or \textbf{str}: array of characters (texts, words...). Must be between double quotes (``'').
-	\item \textbf{int}: short for integer. Numeric. Can hold an integer value between -2147483647 and 2147483647. Discussed Numeric Types section.
-	\item \textbf{float}: short for floating-point number. Numeric. Can hold a decimal value between 1.17549e-038 and 3.40282e+038. Discussed in Numeric Types section.
-	\item \textbf{char}: an only character. Must be an ASCII character and it must also be between single quotes.
+  \item \textbf{string} or \textbf{str}: array of characters (texts, words...). Must be between double quotes (``'').
+  \item \textbf{int}: short for integer. Numeric. Can hold an integer value between -2147483647 and 2147483647. Discussed in Numeric Types section.
+  \item \textbf{float}: short for floating-point number. Numeric. Can hold a decimal value between 1.17549e-038 and 3.40282e+038. Discussed in Numeric Types section.
+  \item \textbf{char}: an only character. Must be an ASCII character and it must also be between single quotes.
+  \item \textbf{newline} or \textbf{newl}: this is not actually a type of output. It makes the same function as the NEWL keyword, which can only be used in non-numeric outputs (\textbf{string}/\textbf{str} and \textbf{char}), as it is shown in the \textit{Hello World!} example. Writing it in an \textbf{int} or a \textbf{float} output would be useless, but it will not imply an exception.
+  \item \textbf{var}: ALB does not have support for variables yet. But, to use it, after writing \textbf{var}, leave a space and type a dollar symbol inmediately followed by the variable name.
+  This would be an example of usage of the \textbf{var} output type in an \textbf{out} structure/function:
+  \begin{lstlisting}
+  out {
+    :var $aux ;
+  }
+  \end{lstlisting}
+  , which would show the value of the \textit{aux} variable.
 \end{itemize}
 \end{document}
