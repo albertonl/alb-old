@@ -315,8 +315,10 @@ int Program::stdout(std::vector<Statement> statements,int curr_index){
 		if(statements[curr_index+1].st=="{" && statements[curr_index].st!="out{") curr_index++;
 		for(i=curr_index+1;statements[i].st!="}";i++){
 			//cout<<statements[i].st<<endl;
-			if(statements[i].st==":string"){
-				//cout<<"Found :string"<<endl;
+			
+if(statements[i].st==":string" || 
+statements[i].st==":str"){	
+//cout<<"Found :string"<<endl;
 				i++;
 				/*while(actualString[actualString.length()-1]!='\"'){
 					if(actualString[0]=='\"'){
@@ -392,7 +394,12 @@ int Program::stdout(std::vector<Statement> statements,int curr_index){
 				}
 				cout<<totali;
 			}
-			/*
+			else 
+if(statements[i].st==":newline"){
+				
+cout<<endl;
+			}		
+/*
 			else if(statements[i].st==":int"){
 				i++;
 				// actualString=statements[i].st;
