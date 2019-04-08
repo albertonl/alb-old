@@ -4,8 +4,8 @@
 
 BEGIN
 	out{
-		:string "1+1 = " ;
-		:int 1 + 1 ;
+		:string "some random number * some other random number  = " ;
+		:int 323422 * 253343 ;
 		:string NEWL ;
 	}
 END

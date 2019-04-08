@@ -315,7 +315,7 @@ int Program::stdout(std::vector<Statement> statements,int curr_index){
 		if(statements[curr_index+1].st=="{" && statements[curr_index].st!="out{") curr_index++;
 		for(i=curr_index+1;statements[i].st!="}";i++){
 			//cout<<statements[i].st<<endl;
-			
+
 			if(statements[i].st==":string" || statements[i].st==":str"){
 				i++;
 				/*while(actualString[actualString.length()-1]!='\"'){
@@ -377,7 +377,7 @@ int Program::stdout(std::vector<Statement> statements,int curr_index){
 					//if(actualString=="NEWL") cout<<totali<<endl;
 					if(actualString==";") break;
 					else if(totali==0){
-						totali=std::stoi(actualString);
+						totali=std::stoll(actualString);
 						//cout<<"totali0: "<<totali<<endl;
 					}
 					else{
@@ -394,7 +394,7 @@ int Program::stdout(std::vector<Statement> statements,int curr_index){
 			}
 			else if(statements[i].st==":newline" || statements[i].st==":newl"){
 				cout<<endl;
-			}		
+			}
 /*
 			else if(statements[i].st==":int"){
 				i++;
