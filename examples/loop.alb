@@ -1,0 +1,7 @@
+BEGIN
+	repeat 3
+		out{
+			:string "Baby shark, doo doo doo doo doo doo" NEWL ;
+		}
+	ENDLOOP
+END

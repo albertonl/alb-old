@@ -377,7 +377,7 @@ int Program::stdout(std::vector<Statement> statements,int curr_index){
 					//if(actualString=="NEWL") cout<<totali<<endl;
 					if(actualString==";") break;
 					else if(totali==0){
-						totali=std::stoll(actualString);
+						totali=std::stoi(actualString);
 						//cout<<"totali0: "<<totali<<endl;
 					}
 					else{
@@ -391,6 +391,29 @@ int Program::stdout(std::vector<Statement> statements,int curr_index){
 					actualString=statements[i].st;
 				}
 				cout<<totali;
+			}
+			else if(statements[i].st==":float"){
+				i++;
+				actualString=statements[i].st;
+				while(actualString!=";"){
+					//cout<<actualString<<endl;
+					//if(actualString=="NEWL") cout<<totali<<endl;
+					if(actualString==";") break;
+					else if(totali==0){
+						totali=std::stof(actualString);
+						//cout<<"totali0: "<<totali<<endl;
+					}
+					else{
+						if(actualString=="+") totalf+=std::stof(statements[i+1].st);
+						else if(actualString=="-") totalf-=std::stof(statements[i+1].st);
+						else if(actualString=="*") totalf*=std::stof(statements[i+1].st);
+						else if(actualString=="/") totalf/=std::stof(statements[i+1].st);
+						i++;
+					}
+					i++;
+					actualString=statements[i].st;
+				}
+				cout<<totalf;
 			}
 			else if(statements[i].st==":newline" || statements[i].st==":newl"){
 				cout<<endl;

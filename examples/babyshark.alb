@@ -1,0 +1,36 @@
+// Baby Shark (by Pinkfong) in ALB
+// Alberto Navalon Lillo (C) April 2019
+// GNU Public License
+
+BEGIN
+	repeat 3
+		out{
+			:string "Baby shark, doo doo doo doo doo doo" NEWL ;
+		}
+	ENDLOOP
+//	out{ :string "Baby shark!" NEWL ; }
+	repeat 3
+		out{
+			:string "Mommy shark, doo doo doo doo doo doo" NEWL ;
+		}
+	ENDLOOP
+//	out{ :string "Mommy shark!" NEWL ; }
+	repeat 3
+		out{
+			:string "Daddy shark, doo doo doo doo doo doo" NEWL ;
+		}
+	ENDLOOP
+//	out{ :string "Daddy shark!" NEWL ; }
+	repeat 3
+		out{
+			:string "Grandma shark, doo doo doo doo doo doo" NEWL ;
+		}
+	ENDLOOP
+//	out{ :string "Grandma shark!" NEWL ; }
+	repeat 3
+		out{
+			:string "Grandpa shark, doo doo doo doo doo doo" NEWL ;
+		}
+	ENDLOOP
+//	out{ :string "Grandpa shark!" NEWL ; }
+END
