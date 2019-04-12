@@ -31,21 +31,6 @@ const static std::vector<pair<string,string> > level_minus = {
 	{"ENDLOOP","loop_end"},
 	{"FI","control_end"}
 };
-/*
-// TYPES
-const std::map<string,string> level_plus_type = {
-	{"BEGIN","primary"},
-	{"repeat","loop"},
-	{"if","control"},
-	{"elif","control"},
-	{"else","control"}
-};
-const std::map<string,string> level_minus_type = {
-	{"END","primary_end"},
-	{"ENDLOOP","loop_end"},
-	{"FI","control_end"}
-};
-*/
 
 //DEFINITION OF STATEMENT
 struct Statement{
@@ -94,13 +79,20 @@ void Program::read(const string fileName){
 
 	while(!source.eof()){ // While not finished
 		while(getline(source,actual_statement)){
-			//cout<<"index "<<curr_index<<": "<<actual_statement<<endl;
 			if(actual_statement[0]!='/' && actual_statement[1]!='/'){ // If not a comment, then store it
 				boost::algorithm::erase_all(actual_statement,"\t");
+				//boost::algorithm::erase_all(actual_statement," ");
 				stringstream ss(actual_statement);
 
 				if(actual_statement.find(" ")!=string::npos){ // If spaces found
 					while(getline(ss,actual_statement,' ')){
+						//if(actual_statement==" ") continue;
+						for(int i=0;i<actual_statement.length();i++){
+							if(actual_statement[i]==' '){
+								//actual_statement[i]=='';
+								// Desplazar caracteres
+							}
+						}
 						for(int i=0;i<level_plus.size();i++){
 							if(actual_statement==level_plus[i].first){ // If keyword in level_plus cat
 								begin_index.push_back(curr_index);
@@ -181,99 +173,16 @@ void Program::print(const string fileName){
 	}
 	cout<<endl;
 }
-/*
-void Program::run(const string fileName){
-	bool began=false;
-	int index=0;
-	int loopRepeats=0;
-	for(int i=0;i<=statements.size();i++){
-		if(statements[i]=="BEGIN" && !began){
-			began=true;
-		}
-		else if(statements[i]=="END" && began){
-			began=false;
-		}
-		else if(began){
-			if(statements[i]=="BEGIN"){
-				cout<<"In "<<fileName<<", ERROR 001: 'BEGIN' cannot be used inside another."<<endl;
-				exit(0);
-			}
-			else if(statements[i]=="repeat"){
-				i++;
-				if(statements[i]=="infinity"){
-					while(true){
-						for(index=i+1;statements[index]!="ENDLOOP";index++){
-							if(statements[index]=="out"){
-								while(statements[index]!=";"){
-									index++;
-									if(statements[index]=="NEWL"){
-										cout<<endl;
-									}
-									else if(statements[index]!=";"){
-										cout<<statements[index]<<" ";
-									}
-								}
-							}
-						}
-					}
-				}
-				else{
-					loopRepeats = stoi(statements[i]);
-					for(int j=0;j<loopRepeats;j++){
-						index=i+1;
-						for(index;statements[index]!="ENDLOOP";index++){
-							if(statements[index]=="out"){
-								while(statements[index]!=";"){
-									index++;
-									if(statements[index]=="NEWL"){
-										cout<<endl;
-									}
-									else if(statements[index]!=";"){
-										cout<<statements[index]<<" ";
-									}
-								}
-							}
-						}
-					}
-					i=index+1;
-				}
-			}
-			else if(statements[i]=="out"){
-				while(statements[i]!=";"){
-					i++;
-					if(statements[i]=="NEWL"){
-						cout<<endl;
-					}
-					else if(statements[i]!=";"){
-						cout<<statements[i]<<" ";
-					}
-				}
-			}
-		}
-		else{
-			if(statements[i]=="END"){
-				cout<<"In "<<fileName<<", ERROR 002: 'END' cannot be used before a 'BEGIN' statement."<<endl;
-				exit(0);
-			}
-		}
-	}
-}
-*/
+
 int Program::loop(std::vector<Statement> statements, int curr_index){
-	//cout<<"In loop()"<<endl;
-	int i=0; //cout<<"i declared"<<endl;
-	int iterationNum=0; //cout<<"iterationNum declared"<<endl;
-	string actualString; //cout<<"actualString declared"<<endl;
-	//cout<<"statements[curr_index+1].st==\""<<statements[curr_index+1].st<<"\""<<endl;
+	int i=0;
+	int iterationNum=0;
+	string actualString;
+	
 	if(statements[curr_index+1].st=="infinity"){
-		// cout<<"Entering infinite loop..."<<endl;
+		
 		while(true){
 			for(i=curr_index+2;statements[i].st!="ENDLOOP";i++){
-				//cout<<statements[i].st<<endl;
-				/*switch(statements[i].st){
-					case "repeat": i=loop(statements,i); break;
-					case "out": i=stdout(statements,i); break;
-				}*/
 				if(statements[i].st=="repeat") i=this->loop(statements,i);
 				else if(statements[i].st=="out" || statements[i].st=="out{") i=this->stdout(statements,i);
 			}
@@ -281,24 +190,20 @@ int Program::loop(std::vector<Statement> statements, int curr_index){
 	}
 	else{
 		actualString=statements[curr_index+1].st;
-		for(int j=0;j<actualString.length();j++){
-			iterationNum+=actualString[j]-'0';
-		}
+		iterationNum=std::stoi(actualString);
+		cout<<"iterator: "<<iterationNum<<endl;
 		for(iterationNum;iterationNum>0;iterationNum--){
 			for(i=curr_index+2;statements[i].st!="ENDLOOP";i++){
-				/*switch(statements[i].st){
-					case "repeat": i=loop(statements,i); break;
-					case "out": i=stdout(statements,i); break;
-				}*/
 				if(statements[i].st=="repeat") i=this->loop(statements,i);
-				else if(statements[i].st=="out") i=this->stdout(statements,i);
+				else if(statements[i].st=="out" && statements[i+1].st=="{") i=this->stdout(statements,i);
+				else if(statements[i].st=="out{") i=this->stdout(statements,i);
 			}
 		}
 	}
 	return i;
 }
+
 int Program::stdout(std::vector<Statement> statements,int curr_index){
-	// cout<<"I'm in stdout()"<<endl;
 	int i=0;
 	int aux=0;
 	int totali=0;
@@ -311,40 +216,17 @@ int Program::stdout(std::vector<Statement> statements,int curr_index){
 	string actualString;
 
 	if(statements[curr_index].st=="out{" || statements[curr_index+1].st=="{"){
-		//cout<<"In loop"<<endl;
 		if(statements[curr_index+1].st=="{" && statements[curr_index].st!="out{") curr_index++;
 		for(i=curr_index+1;statements[i].st!="}";i++){
-			//cout<<statements[i].st<<endl;
-
 			if(statements[i].st==":string" || statements[i].st==":str"){
 				i++;
-				/*while(actualString[actualString.length()-1]!='\"'){
-					if(actualString[0]=='\"'){
-						for(int j=1;j<actualString.length();j++){
-							cout<<actualString[j];
-						}
-						cout<<" ";
-
-					}
-					if(actualString=="NEWL") cout<<endl;
-					if(actualString==";") break;
-					i++;
-					actualString=statements[i].st;
-				}
-				if(actualString[actualString.length()-1]=='\"'){
-					for(int j=0;j<actualString.length()-1;j++){
-						cout<<actualString[j];
-					}
-				}*/
 				for(aux=i;broken==false;aux++){
 					actualString=statements[aux].st;
-					//if(actualString[0]=='\"' && !opened) opened=true;
 					if(actualString=="NEWL") cout<<endl;
 					else if(actualString==";") broken=true;
 					else if(actualString[0]=='\"' && !opened){
 						opened=true;
 						for(int j=1;j<actualString.length();j++){
-							//if(aux==i && j==0) j++;
 							if(actualString[j]=='\"'){
 								nospace=true;
 								break;
@@ -373,12 +255,9 @@ int Program::stdout(std::vector<Statement> statements,int curr_index){
 				i++;
 				actualString=statements[i].st;
 				while(actualString!=";"){
-					//cout<<actualString<<endl;
-					//if(actualString=="NEWL") cout<<totali<<endl;
 					if(actualString==";") break;
 					else if(totali==0){
 						totali=std::stoi(actualString);
-						//cout<<"totali0: "<<totali<<endl;
 					}
 					else{
 						if(actualString=="+") totali+=std::stoi(statements[i+1].st);
@@ -396,12 +275,9 @@ int Program::stdout(std::vector<Statement> statements,int curr_index){
 				i++;
 				actualString=statements[i].st;
 				while(actualString!=";"){
-					//cout<<actualString<<endl;
-					//if(actualString=="NEWL") cout<<totali<<endl;
 					if(actualString==";") break;
 					else if(totali==0){
 						totali=std::stof(actualString);
-						//cout<<"totali0: "<<totali<<endl;
 					}
 					else{
 						if(actualString=="+") totalf+=std::stof(statements[i+1].st);
@@ -415,120 +291,18 @@ int Program::stdout(std::vector<Statement> statements,int curr_index){
 				}
 				cout<<totalf;
 			}
+			else if(statements[i].st==":char"){
+				i++;
+				actualString=statements[i].st;
+				if(actualString.length()==3){
+					if(actualString[0]=='\'' && actualString[2]=='\''){
+						cout<<actualString[1];
+					}
+				}
+			}
 			else if(statements[i].st==":newline" || statements[i].st==":newl"){
 				cout<<endl;
 			}
-/*
-			else if(statements[i].st==":int"){
-				i++;
-				// actualString=statements[i].st;
-				while(actualString[actualString.length()-1]!=';'){
-					actualString=statements[i].st;
-					if(actualString[0]!=';'){
-						cout<<std::stoi(actualString);
-						if(totali==0){
-							if(actualString=="+"){
-								totali+=std::stoi(statements[i-1].st)+std::stoi(statements[i+1].st);
-							}
-							if(actualString=="-"){
-								totali-=std::stoi(statements[i-1].st)-std::stoi(statements[i+1].st);
-							}
-							if(actualString=="*"){
-								totali*=std::stoi(statements[i-1].st)*std::stoi(statements[i+1].st);
-							}
-							if(actualString=="/"){
-								totali/=std::stoi(statements[i-1].st)/std::stoi(statements[i+1].st);
-							}
-						}
-					}
-					if(actualString=="NEWL") cout<<endl;
-					if(actualString==";") break;
-					i++;
-				}
-			}/*
-			else if(statements[i]==":float"){
-				i++;
-				actualString=statements[i];
-				while(actualString[actualString.length()-1]!=";"){
-					if(actualString[0]!=";"){
-						cout<<std::stof(actualString);
-						if(total==0){
-							if(actualString=="+"){
-								total+=(std::stoi(statements[i-1].st)+std::stoi(statements[i+1].st));
-							}
-							if(actualString=="-"){
-								total-=(std::stoi(statements[i-1].st)-std::stoi(statements[i+1].st));
-							}
-							if(actualString=="*"){
-								total*=(std::stoi(statements[i-1].st)*std::stoi(statements[i+1].st));
-							}
-							if(actualString=="/"){
-								total/=(std::stoi(statements[i-1].st)/std::stoi(statements[i+1].st));
-							}
-						}
-					}
-					if(actualString=="NEWL") cout<<endl;
-					if(actualString==";") break;
-					i++;
-				}
-			}
-			else if(statements[i].st==":int"){
-				i++;
-				actualString=statements[i].st;
-				while(actualString[actualString.length()-1]!=';'){
-					if(statements[i+1].st.st!=";"){
-						if(totali==0){
-							switch(statements[i+1].st.st){
-								case '+':
-									i++;
-									totali+=std::stoi(statements[i-1].st)+std::stoi(statements[i+1].st);
-									break;
-								case '-':
-									i++;
-									totali-=std::stoi(statements[i-1].st)-std::stoi(statements[i+1].st);
-									break;
-								case '*':
-									i++;
-									totali*=std::stoi(statements[i-1].st)*std::stoi(statements[i+1].st);
-									break;
-								case '/':
-									i++;
-									totali/=std::stoi(statements[i-1].st)/std::stoi(statements[i-1].st);
-									break;
-								default:
-									totali=std::stoi(statements[i]);
-									break;
-							}
-						}
-						else{
-							switch(statements[i+1].st){
-								case '+':
-									i++;
-									totali+=std::stoi(statements[i+1].st);
-									break;
-								case '-':
-									i++;
-									totali-=std::stoi(statements[i+1].st);
-									break;
-								case '*':
-									i++;
-									totali*=std::stoi(statements[i+1].st);
-									break;
-								case '/':
-									i++;
-									totali/=std::stoi(statements[i-1].st);
-									break;
-								default:
-									totali=std::stoi(statements[i]);
-									break;
-							}
-						}
-					}
-					else break;
-					i++;
-				}
-				cout<<totali;
-			}*/
 			// Variable re-initialization
 			totali=0;
 			totalf=0.0;
@@ -544,17 +318,13 @@ int Program::stdout(std::vector<Statement> statements,int curr_index){
 	return i;
 }
 void Program::run(const string fileName){
-	//cout<<"I'm in run()"<<endl;
 	bool began=false;
 	int index=0;
-	//cout<<"Variables declared"<<endl;
 	for(int i=0;i<statements.size();i++){
-		//cout<<"Current index: "<<i<<endl;
 		if(statements[i].st=="BEGIN" && !began) began=true;
 		else if(statements[i].st=="END" && began) began=false;
 		else if(began){
 			if(statements[i].st=="BEGIN"){
-				// cout<<error(fileName,1)<<endl;
 				cout<<"Error 1"<<endl;
 				exit(0);
 			}

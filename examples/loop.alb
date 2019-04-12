@@ -1,7 +1,9 @@
 BEGIN
 	repeat 3
-		out{
-			:string "Baby shark, doo doo doo doo doo doo" NEWL ;
+		out    {
+		:string "Baby shark, doo doo doo doo doo doo" NEWL ;
 		}
 	ENDLOOP
+	out{ :str "Fin del programa" NEWL ; }
+	out{ :str "out 2" NEWL ; }
 END
