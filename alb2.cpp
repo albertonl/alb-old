@@ -73,6 +73,7 @@ void Program::read(const string fileName){
 	int level=0;
 	int curr_index=0;
 	std::vector<int> begin_index;
+	//std::vector<int> blank_index; // Deleting unnecesary blank spaces in strings
 	bool gotCoincidence=false;
 
 	source.open(fileName.c_str(),ios::in);
@@ -87,12 +88,13 @@ void Program::read(const string fileName){
 				if(actual_statement.find(" ")!=string::npos){ // If spaces found
 					while(getline(ss,actual_statement,' ')){
 						//if(actual_statement==" ") continue;
-						for(int i=0;i<actual_statement.length();i++){
+						/*for(int i=0;i<actual_statement.length();i++){
 							if(actual_statement[i]==' '){
 								//actual_statement[i]=='';
 								// Desplazar caracteres
 							}
-						}
+						}*/
+						//boost::algorithm::erase_all(actual_statement," ");
 						for(int i=0;i<level_plus.size();i++){
 							if(actual_statement==level_plus[i].first){ // If keyword in level_plus cat
 								begin_index.push_back(curr_index);
@@ -153,6 +155,12 @@ void Program::read(const string fileName){
 		}
 	}
 	source.close();
+	statements.erase(std::remove_if(statements.begin(), statements.end(), [&](Statement const & statement) {
+		return statement.st == " ";
+	}),statements.end());
+	statements.erase(std::remove_if(statements.begin(), statements.end(), [&](Statement const & statement) {
+		return statement.st == "";
+	}),statements.end());
 }
 
 void Program::print(const string fileName){
@@ -162,7 +170,7 @@ void Program::print(const string fileName){
 	cout<<"File: "<<fileName<<endl;
 	cout<<"ST.\t\tLEVEL\tBEGIN INDEX\tTYPE"<<endl;
 	for(int i=0;i<statements.size();i++){
-		cout<<statements[i].st<<"\t\t";
+		cout<<'\"'<<statements[i].st<<"\"\t\t";
 		cout<<statements[i].level<<"\t\t";
 		cout<<statements[i].begin_index<<"\t";
 		cout<<statements[i].type<<endl;
@@ -191,7 +199,7 @@ int Program::loop(std::vector<Statement> statements, int curr_index){
 	else{
 		actualString=statements[curr_index+1].st;
 		iterationNum=std::stoi(actualString);
-		cout<<"iterator: "<<iterationNum<<endl;
+		//cout<<"iterator: "<<iterationNum<<endl;
 		for(iterationNum;iterationNum>0;iterationNum--){
 			for(i=curr_index+2;statements[i].st!="ENDLOOP";i++){
 				if(statements[i].st=="repeat") i=this->loop(statements,i);
