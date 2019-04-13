@@ -58,6 +58,7 @@ class Program{
 		void run(const string fileName);
 		//void push_vec(string actual_statement);
 		void print(const string fileName);
+		void showVector();
 
 		int loop(std::vector<Statement> statements, int curr_index);
 		int stdout(std::vector<Statement> statements, int curr_index);
@@ -66,9 +67,16 @@ Program::Program(){
 	statements.push_back(Statement(" ",0,0," "));
 }
 
+void Program::showVector(){
+	for(int i=0;i<statements.size();i++){
+		cout<<"Index "<<i<<": \""<<statements[i].st<<"\""<<endl;
+	}
+}
+
 void Program::read(const string fileName){
 	ifstream source;
 	string actual_statement;
+	string holder;
 	string type;
 	int level=0;
 	int curr_index=0;
@@ -81,7 +89,12 @@ void Program::read(const string fileName){
 	while(!source.eof()){ // While not finished
 		while(getline(source,actual_statement)){
 			if(actual_statement[0]!='/' && actual_statement[1]!='/'){ // If not a comment, then store it
-				boost::algorithm::erase_all(actual_statement,"\t");
+				//boost::algorithm::erase_all(actual_statement,"\t");
+				if(actual_statement.find("\t")!=string::npos){ // If tabs found, replace them by blank spaces
+					for(int i=0;i<actual_statement.length();i++){
+						if(actual_statement[i]=='\t') actual_statement[i]==' ';
+					}
+				}
 				//boost::algorithm::erase_all(actual_statement," ");
 				stringstream ss(actual_statement);
 
@@ -161,6 +174,13 @@ void Program::read(const string fileName){
 	statements.erase(std::remove_if(statements.begin(), statements.end(), [&](Statement const & statement) {
 		return statement.st == "";
 	}),statements.end());
+	/*for(int i=0;i<statements.size();i++){
+		actual_statement=statements[i].st;
+		if(actual_statement[i]!=32){ // If not a space
+			holder+=actual_statement[i];
+		}
+		statements[i].st=holder;
+	}*/
 }
 
 void Program::print(const string fileName){
@@ -347,6 +367,7 @@ int main(int argc, char const *argv[]){;
 	Program program;
 	program.read(fileName);
 	//program.print(fileName);
+	program.showVector();
 	program.run(fileName);
 	cout<<endl;
 	return 0;
