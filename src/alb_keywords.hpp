@@ -23,8 +23,8 @@
 #include <boost/algorithm/string/erase.hpp>
 
 #include "alb_std.hpp" // Standard ALB library
-#include "alb_statement.hpp" // Program class
-#include "alb_keywords.hpp" // ALB recognised keywords
+#include "alb_program.hpp" // Program class
+#include "alb_statement.hpp" // Statement structure
 #include "alb_error.hpp" // Exception handler
 using namespace std;
 using namespace alb_statement;
