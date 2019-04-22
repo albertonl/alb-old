@@ -156,9 +156,9 @@ namespace alb_std{
   // Specific outputs
   int sstdout(std::vector<Statement> statements,int curr_index){
     string type_out=statements[curr_index].st;
-
+    // String out
     if(type_out=="outs"){
-      // Continue here
+      
     }
   }
 } // namespace alb_std
