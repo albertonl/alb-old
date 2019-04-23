@@ -12,7 +12,13 @@ The _ALB_ programming language (in development).
 
 - `out`: print on screen (equivalent to C `printf()`):
 
-  `out` USAGE: `out elements ;`
+  `out` USAGE:
+  
+  ```
+  out {
+  	(elements...)
+  }
+  ```
   
 - `NEWL`: new line (equivalent to `\n`). Must be used between `out` and `;`
 
