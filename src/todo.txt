@@ -1,1 +1,4 @@
-- Continue sstdout() in alb_std.hpp (line 157)
+- Continue sstdout() in alb_std.hpp (line 211)
+- Correct numeric outs in stdout() in alb_std.hpp
+- Create ALB Exception Handler (alb_error.hpp)
+- Create README.md with error CATs and ERRNOs

@@ -156,11 +156,59 @@ namespace alb_std{
   // Specific outputs
   int sstdout(std::vector<Statement> statements,int curr_index){
     string type_out=statements[curr_index].st;
+    string actualString; // Aux string holder
+    string aux_str_holder2; // Aux string holder B
+    
+    // General string-use variables
+    bool opened=false; // Iterator between double quotes
+    bool broken=false; // Reached semicolon
+    bool needsbreak=false; // Semicolon with other statement in string
+    
     // String out
     if(type_out=="outs"){
-      
-    }
-  }
+		for(int i=curr_index+1;!broken;i++){
+			actualString=statements[i].st;
+			if(actualString==';') broken=true; // Reached end of statement
+			else if(actualString[actualString.length()-1]==';'){
+				for(int j=0;j<actualString.length()-1];i++) aux_str_holder2+=actualString[i]; // Copy actualString without the last semicolon
+				actualString=aux_str_holder2;
+				needsbreak=true; // Will break at the end of loop
+			}
+			
+			if(actualString=="NEWL") cout<<endl; // Newline
+			else if(actualString[0]=='\"' && !opened){
+				opened=true;
+				for(int j=1;j<actualString.length() && opened;j++){ // j=1
+					if(actualString[i]=='\"') opened=false; // Closing double quotes
+					else cout<<actualString[i];
+				}
+			}
+			else if(opened){
+				for(int j=0;j<actualString.length() && opened;j++){ // j=0
+					if(actualString[i]=='\"') opened=false; // Closing double quotes
+					else cout<<actualString[i];
+				}
+			}
+			
+			if(needsbreak) broken=true;
+		}
+	}
+	else if(type_out=="outc"){
+		actualString=statements[curr_index+1].st;
+		if(actualString[0]=='\'' && actualString[2]=='\'' && actualString.length()==3){
+			cout<<actualString[1];
+		}
+		else{
+			alb_error::error(21);
+			/*
+			 * ERROR INFO:
+			 * 	- CAT: 2 (types)
+			 * 	- ERRNO: 1
+			 * 	- MSG: "ALB Type Error: Incorrect character definition (must be 'c') in statement no. [curr_index+1]"
+			*/
+		}
+	}
+	// Continue here
 } // namespace alb_std
 
 #endif // ALB_STD_HPP

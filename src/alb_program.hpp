@@ -146,14 +146,24 @@ namespace alb_program{
         inExec=false; // Not in executable
       }
       else if(statements[i].st=="END" && !inExec){
-        // END cannot be used before a BEGIN
-        alb_error::error(2); // Throw exception 2
+        alb_error::error(2); // Throw exception 02
+        /*
+         * ERROR INFO:
+         * 	- CAT: 0 (primary)
+         * 	- ERRNO: 2
+         * 	- MSG: "ALB Primary Error: 'END' statement cannot be used before opening executable with 'BEGIN'"
+        */
       }
       else if(inExec){
         // If in executable and is none of the previous two
         if(statements[i].st=="BEGIN"){
-          // BEGIN cannot be used inside another BEGIN
-          alb_error::error(1); // Throw exception 1
+          alb_error::error(1); // Throw exception 01
+          /*
+           * ERROR INFO:
+           * 	- CAT: 0 (primary)
+           * 	- ERRNO: 1
+           * 	- MSG: "ALB Primary Error: 'BEGIN' statement cannot be used inside another 'BEGIN' executable block"
+          */
         }
         else if(statements[i].st=="repeat") i=alb_std::loop(statements,i);
         else if(statements[i].st=="out{") i=alb_std::stdout(statements,i);
