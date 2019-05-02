@@ -154,7 +154,7 @@ namespace alb_std{
   } // stdout()
 
   // Specific outputs
-<<<<<<< HEAD
+//<<<<<<< HEAD
     int sstdout(std::vector<Statement> statements,int curr_index){
         string type_out=statements[curr_index].st; // General use
         string actualString; // General use
@@ -259,6 +259,7 @@ namespace alb_std{
             }
         }
     }
+    /*
 =======
   int sstdout(std::vector<Statement> statements,int curr_index){
     string type_out=statements[curr_index].st;
@@ -311,11 +312,12 @@ namespace alb_std{
 			 * 	- CAT: 2 (types)
 			 * 	- ERRNO: 1
 			 * 	- MSG: "ALB Type Error: Incorrect character definition (must be 'c') in statement no. [curr_index+1]"
-			*/
+			
 		}
 	}
 	// Continue here
 >>>>>>> 36c8d350448057103bdfbd3a1e6f22b588902fd0
+*/
 } // namespace alb_std
 
 #endif // ALB_STD_HPP
