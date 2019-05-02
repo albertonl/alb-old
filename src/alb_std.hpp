@@ -154,6 +154,112 @@ namespace alb_std{
   } // stdout()
 
   // Specific outputs
+<<<<<<< HEAD
+    int sstdout(std::vector<Statement> statements,int curr_index){
+        string type_out=statements[curr_index].st; // General use
+        string actualString; // General use
+        int aux=0; // General use
+        bool broken=false; // General use
+        bool toBreak=false; // General use
+        bool opened=false; // String out use
+
+        int first_num_index[2] = {0,0}; // Integer out use
+        int second_num_index[2] = {0,0}; // Integer out use
+        // String out
+        /*
+        if(type_out=="outs"){
+            for(int i=curr_index+1;!broken;i++){
+                actualString=statements[i].st
+                if(actualString[actualString.length()-1]==';' && !opened){
+                    actualString.pop_back(); // Delete semicolon
+                    toBreak=true; // Prepare to break at the end of the loop
+                }
+                if(actualString=="NEWL" && !opened) cout<<endl; // New line
+                else if(!opened && actualString[0]=='\"'){ // If opening double quotes
+                    opened=true;
+                    // If the string is only one word, remember to not to finish at last slot
+                    if(actualString[actualString.length()-1]=='\"') aux=actualString.length()-1; // Don't finish at last slot
+                    else aux=actualString.length(); // Finish at last slot
+                    for(int j=1;j<aux;j++) cout<<actualString[j]; // Iterate through the string
+                }
+                else if(opened){ // If it is already opened
+                    if(actualString=="\"") cout<<" ";
+                    else if(actualString[actualString.length()-1]=='\"'){
+                        aux=actualString.length()-1; // Don't finish at last slot
+                        opened=false;
+                    }
+                    else aux=actualString.length(); // Finish at last slot
+                    for(int j=0;j<aux;j++) cout<<actualString[j];
+                }
+
+                if(toBreak) broken=true;
+            }
+        }
+        */
+
+        if(type_out=="outs"){
+            for(int i=curr_index+1;!broken;i++){
+                actualString=statements[i].st;
+                if(!opened){
+                    if(actualString[0]=='\"'){
+                        opened=true;
+                        if(actualString[actualString.length()-1]==';'){
+                            if(actualString[actualString.length()-2]=='\"'){
+                                actualString.pop_back();
+                                toBreak=true;
+                                for(int j=1;j<actualString.length()-1;j++) cout<<actualString[j];
+                                opened=false;
+                            }
+                            else{
+                                for(int j=1;j<actualString.length();j++) cout<<actualString[j];
+                            }
+                        }
+                        else{
+                            for(int j=1;j<actualString.length();j++) cout<<actualString[j];
+                            cout<<" ";
+                        }
+                    }
+                    else{
+                        if(actualString[actualString.length()-1]==';'){
+                            actualString.pop_back();
+                            toBreak=true;
+                        }
+                        if(actualString=="NEWL") cout<<endl; // New line
+                        else if(actualString=="BSPACE") cout<<" "; // Blank space
+                        else if(actualString=="BTAB") cout<<"   "; // Blank tab
+                    }
+                }
+                else{
+                    if(actualString[actualString.length()-1]==';'){
+                        if(actualString[actualString.length()-2]=='\"'){
+                            actualString.pop_back();
+                            toBreak=true;
+                            for(int j=0;j<actualString.length()-1;j++) cout<<actualString[j];
+                            opened=false;
+                        }
+                        else cout<<actualString<<" ";
+                    }
+                    else{
+                        if(actualString[actualString.length()-1]=='\"'){
+                            for(int j=0;j<actualString.length()-1;j++) cout<<actualString[j];
+                            opened=false;
+                        }
+                        else{
+                            cout<<actualString<<" ";
+                        }
+                    }
+                }
+
+                if(toBreak) broken=true;
+            }
+        } // if(type_out=="outs")
+        else if(type_out=="outi"){
+            for(int i=curr_index+1;!broken;i++){
+                
+            }
+        }
+    }
+=======
   int sstdout(std::vector<Statement> statements,int curr_index){
     string type_out=statements[curr_index].st;
     string actualString; // Aux string holder
@@ -209,6 +315,7 @@ namespace alb_std{
 		}
 	}
 	// Continue here
+>>>>>>> 36c8d350448057103bdfbd3a1e6f22b588902fd0
 } // namespace alb_std
 
 #endif // ALB_STD_HPP
