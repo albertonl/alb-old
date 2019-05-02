@@ -31,6 +31,8 @@ using namespace std;
 using namespace alb_statement;
 using namespace alb_program;
 
+const char numbers[10] = {'0','1','2','3','4','5','6','7','8','9'}; // For outi use
+
 namespace alb_std{
   int Program::stdout(std::vector<Statement> statements,int curr_index){
   	int i=0;
@@ -165,6 +167,8 @@ namespace alb_std{
 
         int first_num_index[2] = {0,0}; // Integer out use
         int second_num_index[2] = {0,0}; // Integer out use
+        bool gotFirst=false;
+        bool gotSecond=false;
         // String out
         /*
         if(type_out=="outs"){
@@ -253,12 +257,234 @@ namespace alb_std{
                 if(toBreak) broken=true;
             }
         } // if(type_out=="outs")
+        /*
         else if(type_out=="outi"){
             for(int i=curr_index+1;!broken;i++){
-                
+                actualString=statements[i].st;
+                for(int i=0;i<actualString.length();i++){
+                  if(actualString[i]>=48 && <=57){
+                    if(!gotFirst){
+                      if(first_num_index[1]==0){
+
+                      }
+                    }
+                  }
+                }
             }
         }
+        */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        string actualString;
+        std::vector<string> broken_statement;
+        bool broken=false;
+        bool gotFirst=false;
+        bool gotSecond=false;
+
+        int operatorIndex=0;
+        int firstNumEnd=0;
+        int secondNumEnd=0;
+
+        else if(type_out=="outi"){
+          /*for(int i=curr_index+1;!broken;i++){
+            actualString=statements[i].st;
+            if(actualString==";") broken=true;
+            for(int j=0;j<actualString.length();j++){
+              if(actualString[j]>=48 && <=57){ // If it is a number
+                if(!gotFirst) firstNumEnd=j
+                else if(gotFirst && !gotSecond) secondNumEnd=j;
+              }
+            }
+          }*/
+        broken_statement.push_back("");
+        actualString=statements[curr_index+1].st;
+        if(statements[curr_index+2]==";" || actualString[actualString.length()-1]==';'){
+          for(int j=0;j<actualString.length();j++){
+            if(actualString[j]>=48 && <=57){
+              // If it is a number
+              if(broken_statement[broken_statement.size()-1]=='+' ||
+                broken_statement[broken_statement.size()-1]=='-' ||
+                broken_statement[broken_statement.size()-1]=='*' ||
+                broken_statement[broken_statement.size()-1]=='/' ||
+                broken_statement[broken_statement.size()-1]=='(' ||
+                broken_statement[broken_statement.size()-1]==')'){
+                broken_statement.push_back("");
+              }
+              broken_statement[broken_statement.size()-1]+=actualString[j];
+            }
+            else{
+              switch(actualString[j]){
+                case '+':
+                  broken_statement.push_back("");
+                  broken_statement[broken_statement.size()-1]+=actualString[j];
+                  break;
+                case '-':
+                  broken_statement.push_back("");                      
+                  broken_statement[broken_statement.size()-1]+=actualString[j];
+                  break;
+                case '*':
+                  broken_statement.push_back("");                      
+                  broken_statement[broken_statement.size()-1]+=actualString[j];
+                  break;
+                case '/':
+                  broken_statement.push_back("");                      
+                  broken_statement[broken_statement.size()-1]+=actualString[j];
+                  break;
+                case '(':
+                  broken_statement.push_back("");                      
+                  broken_statement[broken_statement.size()-1]+=actualString[j];
+                  break;
+                case ')':
+                  broken_statement.push_back("");                      
+                  broken_statement[broken_statement.size()-1]+=actualString[j];
+                  break;
+                default:
+                  alb_error::error(13);
+                  /*
+                    ERROR INFO:
+                      - CAT: 1 (general)
+                      - ERRNO: 3
+                      - MSG: "ALB General Error: unexpected character inside numeric statement"
+                  */
+                  break;
+              }
+            }
+          }
+
+          /*
+
+            CONTINUE HERE WITH USAGE OF broken_statement TO GET RESULTS
+
+          */
+        }
+        else{
+          for(int i=curr_index+1;!broken;i++){
+            actualString=statements[i].st;
+            // Continue also here
+          }
+        }
+      }
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     /*
 =======
   int sstdout(std::vector<Statement> statements,int curr_index){
