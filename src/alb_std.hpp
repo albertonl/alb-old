@@ -273,7 +273,23 @@ namespace alb_std{
             }
         }
         */
+        if(type_out=="outc"){
+          actualString=statements[curr_index+1].st;
+          if(actualString[0]=='\'' && actualString[2]=='\''){
+            if(actualString[1]=='\\' && actualString.length()>3){
+              if(actualString[4]=='\'') cout<<'\'';
+            }
+            else cout<<actualString[1];
+          }
 
+          if(actualString[actualString.length()-1]!=';') alb_error::error(14);
+          /*
+            ERROR INFO:
+              - CAT: 1 (general)
+              - ERRNO: 4
+              - MSG: "ALB General Error: expected semicolon"
+          */
+        }
 
 
 
