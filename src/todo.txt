@@ -1,5 +1,6 @@
 <<<<<<< HEAD
 - Continue sstdout() in alb_std.hpp (line 254)
+- Add aux=(last index) at every "broken=true;" in sstdout() (alb_std.hpp)
 =======
 - Continue sstdout() in alb_std.hpp (line 211)
 - Correct numeric outs in stdout() in alb_std.hpp
