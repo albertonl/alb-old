@@ -31,6 +31,7 @@ using namespace std;
 using namespace alb_statement;
 using namespace alb_program;
 
+// That's stupid
 const char numbers[10] = {'0','1','2','3','4','5','6','7','8','9'}; // For outi use
 
 namespace alb_std{
@@ -363,71 +364,72 @@ namespace alb_std{
               }
             }
           }*/
-        broken_statement.push_back("");
-        actualString=statements[curr_index+1].st;
-        if(statements[curr_index+2]==";" || actualString[actualString.length()-1]==';'){
-          for(int j=0;j<actualString.length();j++){
-            if(actualString[j]>=48 && <=57){
-              // If it is a number
-              if(broken_statement[broken_statement.size()-1]=='+' ||
-                broken_statement[broken_statement.size()-1]=='-' ||
-                broken_statement[broken_statement.size()-1]=='*' ||
-                broken_statement[broken_statement.size()-1]=='/' ||
-                broken_statement[broken_statement.size()-1]=='(' ||
-                broken_statement[broken_statement.size()-1]==')'){
-                broken_statement.push_back("");
-              }
-              broken_statement[broken_statement.size()-1]+=actualString[j];
-            }
-            else{
-              switch(actualString[j]){
-                case '+':
+          broken_statement.push_back("");
+          actualString=statements[curr_index+1].st;
+          if(statements[curr_index+2]==";" || actualString[actualString.length()-1]==';'){
+            for(int j=0;j<actualString.length();j++){
+              if(actualString[j]>=48 && <=57){
+                // If it is a number
+                if(broken_statement[broken_statement.size()-1]=='+' ||
+                  broken_statement[broken_statement.size()-1]=='-' ||
+                  broken_statement[broken_statement.size()-1]=='*' ||
+                  broken_statement[broken_statement.size()-1]=='/' ||
+                  broken_statement[broken_statement.size()-1]=='(' ||
+                  broken_statement[broken_statement.size()-1]==')'){
                   broken_statement.push_back("");
-                  broken_statement[broken_statement.size()-1]+=actualString[j];
-                  break;
-                case '-':
-                  broken_statement.push_back("");                      
-                  broken_statement[broken_statement.size()-1]+=actualString[j];
-                  break;
-                case '*':
-                  broken_statement.push_back("");                      
-                  broken_statement[broken_statement.size()-1]+=actualString[j];
-                  break;
-                case '/':
-                  broken_statement.push_back("");                      
-                  broken_statement[broken_statement.size()-1]+=actualString[j];
-                  break;
-                case '(':
-                  broken_statement.push_back("");                      
-                  broken_statement[broken_statement.size()-1]+=actualString[j];
-                  break;
-                case ')':
-                  broken_statement.push_back("");                      
-                  broken_statement[broken_statement.size()-1]+=actualString[j];
-                  break;
-                default:
-                  alb_error::error(13);
-                  /*
-                    ERROR INFO:
-                      - CAT: 1 (general)
-                      - ERRNO: 3
-                      - MSG: "ALB General Error: unexpected character inside numeric statement"
-                  */
-                  break;
+                }
+                broken_statement[broken_statement.size()-1]+=actualString[j];
+              }
+              else{
+                switch(actualString[j]){
+                  case '+':
+                    broken_statement.push_back("");
+                    broken_statement[broken_statement.size()-1]+=actualString[j];
+                    break;
+                  case '-':
+                    broken_statement.push_back("");                      
+                    broken_statement[broken_statement.size()-1]+=actualString[j];
+                    break;
+                  case '*':
+                    broken_statement.push_back("");                      
+                    broken_statement[broken_statement.size()-1]+=actualString[j];
+                    break;
+                  case '/':
+                    broken_statement.push_back("");                      
+                    broken_statement[broken_statement.size()-1]+=actualString[j];
+                    break;
+                  case '(':
+                    broken_statement.push_back("");                      
+                    broken_statement[broken_statement.size()-1]+=actualString[j];
+                    break;
+                  case ')':
+                    broken_statement.push_back("");                      
+                    broken_statement[broken_statement.size()-1]+=actualString[j];
+                    break;
+                  default:
+                    alb_error::error(13);
+                    /*
+                      ERROR INFO:
+                        - CAT: 1 (general)
+                        - ERRNO: 3
+                        - MSG: "ALB General Error: unexpected character inside numeric statement"
+                    */
+                    break;
+                }
               }
             }
+
+            /*
+
+              CONTINUE HERE WITH USAGE OF broken_statement TO GET RESULTS
+
+            */
           }
-
-          /*
-
-            CONTINUE HERE WITH USAGE OF broken_statement TO GET RESULTS
-
-          */
-        }
-        else{
-          for(int i=curr_index+1;!broken;i++){
-            actualString=statements[i].st;
-            // Continue also here
+          else{
+            for(int i=curr_index+1;!broken;i++){
+              actualString=statements[i].st;
+              // Continue also here
+            }
           }
         }
       }
